@@ -87,14 +87,14 @@ void supprimerAutomate(AutomateFini *automate){ // OK
 
 */
 void importerAutomate (char emplacement){ // Plus Tard
-
+    //TODO: Adem
 }
 /*
     Exporte un automate
     @param automate : automate a exporter
 */
 void exporterAutomate (AutomateFini *automate){ // Plus Tard
-
+    //TODO: Adem
 }
 /*
     Verifie si un mot est dans un automate
@@ -103,29 +103,29 @@ void exporterAutomate (AutomateFini *automate){ // Plus Tard
 
 */
 bool verifierMotDansAutomate(AutomateFini *automate, char mot){ // Plus Tard
-
+    //TODO: Ryad
 }
 /*
     Verifie si un automate est complet
     @param automate : automate a verifier
 */
 bool estComplet(AutomateFini *automate){ // Plus Tard
-
+    //TODO: Lina
 }
 /*
     Verifie si un automate est deterministe
     @param automate : automate a verifier
 */
 bool estDeterministe(AutomateFini *automate){ // Plus Tard
-
+    
 }
 /*
     Rend un automate complet
     @param automate : automate a rendre complet
 */
 void rendreComplet(AutomateFini *automate){ // Plus Tard
-
-}
+    //TODO: Robin
+}   
 /*
     Rend un automate deterministe
     @param automate : automate a rendre deterministe
