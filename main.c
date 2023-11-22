@@ -57,10 +57,12 @@ int main() {
     AutomateFini *automate2 = malloc(sizeof(AutomateFini));
     ajouterEtat(automate2,true,false);
     ajouterEtat(automate2,false,false);
-    afficherEtat(automate2,50);
-    afficherAutomate(automate2);
-    afficherEtats(automate2);
-    //ajouterTransition(automate2,automate2 -> etats[0],automate2 -> etats[1],1);
+    //afficherEtat(automate2,50);
     //afficherAutomate(automate2);
+    //afficherEtats(automate2);
+    //ajouterTransition(automate2,automate2 -> etats[0],automate2 -> etats[1],1);
+    afficherAutomate(automate);
+    rendreComplet(automate);
+    afficherAutomate(automate);
     return 0;
 }

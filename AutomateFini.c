@@ -57,17 +57,16 @@ void supprimerTransition (AutomateFini *automate, Etat depart, Etat fin ){ // OK
     @param automate : automate a afficher
 */
 void afficherAutomate(AutomateFini *automate){ // Plus Tard
+
     printf("Alphabet : %d\n",automate->nombreEtats);
     for (int i = 0; i < automate->nombreEtats; i++)
     {
-        printf("%d -- ",automate->etats[i].numeroEtat);
         for (int j = 0; j < automate->nombreEtats; j++)
         {
             if (automate->transition[i][j] != -1)
             {
-                printf("%d ",automate->transition[i][j]);
+                printf("%d--%d ",automate->etats[i].numeroEtat, automate->transition[i][j]);
             }
-            printf("%d",automate->etats[j].numeroEtat);
         }
         printf("\n");
     }
@@ -117,7 +116,7 @@ bool estComplet(AutomateFini *automate){ // Plus Tard
     @param automate : automate a verifier
 */
 bool estDeterministe(AutomateFini *automate){ // Plus Tard
-    
+
 }
 /*
     Rend un automate complet
@@ -125,6 +124,21 @@ bool estDeterministe(AutomateFini *automate){ // Plus Tard
 */
 void rendreComplet(AutomateFini *automate){ // Plus Tard
     //TODO: Robin
+    int nbrEtats = automate->nombreEtats;
+    int nbrLettres = sizeof(automate->alphabet);
+
+    for (int i = 0; i < nbrEtats; i++)
+    {
+        for (int j = 0; j < nbrLettres; j++)
+        {
+            if (automate->transition[i][j] == -1)
+            {
+                ajouterEtat(automate,false,false);
+                ajouterTransition(automate,automate->etats[i],automate->etats[nbrEtats],automate->alphabet[j]);
+            }
+        }
+    }
+
 }   
 /*
     Rend un automate deterministe
