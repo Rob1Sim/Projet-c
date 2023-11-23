@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "Etat.h"
-#include "AutomateFini.h"
+#include "State.h"
+#include "FiniteAutomaton.h"
 
 int main() {
     /*
@@ -47,20 +47,20 @@ int main() {
     int nombreEtat = 2 ;
 
     //Création de l'automate
-    AutomateFini *automate = malloc(sizeof(AutomateFini));
-    initialiserAutomate(automate, alphabet, nombreEtat);
+    FiniteAutomaton *automate = malloc(sizeof(FiniteAutomaton));
+    initAutomaton(automate, alphabet, nombreEtat);
     
     //Ajout d'un état final et d'un état initial
-    modifierEtat(automate,0,true,false);
-    modifierEtat(automate,1,false,true);
+    editState(automate,0,true,false);
+    editState(automate,1,false,true);
 
     //Ajout des transitions
-    ajouterTransition(automate,automate -> etats[0],automate -> etats[1],1);
-    ajouterTransition(automate,automate -> etats[0],automate -> etats[0],0);
-    ajouterTransition(automate,automate -> etats[0],automate -> etats[1],0);
+    addTransition(automate,automate -> states[0],automate -> states[1],1);
+    addTransition(automate,automate -> states[0],automate -> states[0],0);
+    addTransition(automate,automate -> states[0],automate -> states[1],0);
     
     //Affichage de l'automate
-    afficherAutomate(automate);
+    displayAutomaton(automate);
 
 
     return 0;
