@@ -2,7 +2,7 @@
 #ifndef H_ETAT_H
 #define H_ETAT_H
 typedef struct Etat Etat;
-#include "AutomateFini.h"
+#include "FiniteAutomaton.h"
 #include <stdbool.h>
 
 struct Etat {        // Type Etat
@@ -10,9 +10,9 @@ struct Etat {        // Type Etat
     bool estFinal;      // Si Etat Finale
 };
 
-void ajouterEtat (AutomateFini *automate, bool estInitial, bool estFinal);
-void modifierEtat (AutomateFini *automate, int numeroEtat, bool estInitial, bool estFinal);
-void supprimerEtat (AutomateFini *automate, int numeroEtat );
-void afficherEtat (AutomateFini *automate, int numeroEtat);
-void afficherEtats (AutomateFini *automate);
+void ajouterEtat (FiniteAutomaton *automate, bool estInitial, bool estFinal);
+void modifierEtat (FiniteAutomaton *automate, int numeroEtat, bool estInitial, bool estFinal);
+void supprimerEtat (FiniteAutomaton *automate, int numeroEtat );
+void afficherEtat (FiniteAutomaton *automate, int numeroEtat);
+void afficherEtats (FiniteAutomaton *automate);
 #endif

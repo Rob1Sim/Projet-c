@@ -8,26 +8,26 @@
     @param estInitial : true si l'etat est initial, false sinon
     @param estFinal : true si l'etat est final, false sinon
 */
-void ajouterEtat (AutomateFini *automate, bool estInitial, bool estFinal) { // OK
+void ajouterEtat (FiniteAutomaton *automate, bool estInitial, bool estFinal) { // OK
 
-    int nombreEtats = 1 + automate -> nombreEtats ; // augmente le nombre d'etat de 1
+    int numberOfStates = 1 + automate -> numberOfStates ; // augmente le nombre d'etat de 1
 
     Etat nouvelleEtat;
 
     nouvelleEtat.estFinal = estFinal;   // init le nouvelle etat avec les parametres
-    nouvelleEtat.numeroEtat = nombreEtats;
+    nouvelleEtat.numeroEtat = numberOfStates;
 
-    Etat *nouveauxEtats = malloc(nombreEtats*sizeof(Etat)); // alloue la memoire pour le nouveau tableau
-    for (int i = 0; i < nombreEtats - 1; i++){
-        nouveauxEtats[i] = automate -> etats[i]; // copie les ancients etats dans le nouveau tableau
+    Etat *nouveauxEtats = malloc(numberOfStates*sizeof(Etat)); // alloue la memoire pour le nouveau tableau
+    for (int i = 0; i < numberOfStates - 1; i++){
+        nouveauxEtats[i] = automate -> states[i]; // copie les ancients etats dans le nouveau tableau
     }
 
-    nouveauxEtats[nombreEtats] = nouvelleEtat; // ajoute le nouvelle etat dans le tableau
-    free(automate -> etats);    // libere la memoire de l'ancien tableau
-    automate -> etats = nouveauxEtats ;
+    nouveauxEtats[numberOfStates] = nouvelleEtat; // ajoute le nouvelle etat dans le tableau
+    free(automate -> states);    // libere la memoire de l'ancien tableau
+    automate -> states = nouveauxEtats ;
 
     if (estInitial){
-        automate -> etatInitial = nombreEtats -1 ; // change etat initial si demand�
+        automate -> initialState = numberOfStates -1 ; // change etat initial si demand�
     }
 
 }
@@ -38,11 +38,11 @@ void ajouterEtat (AutomateFini *automate, bool estInitial, bool estFinal) { // O
     @param estInitial : true si l'etat est initial, false sinon
     @param estFinal : true si l'etat est final, false sinon
 */
-void modifierEtat (AutomateFini *automate, int numeroEtat, bool estInitial, bool estFinal) { // OK
+void modifierEtat (FiniteAutomaton *automate, int numeroEtat, bool estInitial, bool estFinal) { // OK
 
-    automate -> etats[numeroEtat].estFinal = estFinal ;
+    automate -> states[numeroEtat].estFinal = estFinal ;
     if (estInitial){
-        automate -> etatInitial = numeroEtat ; // change etat initial si demande
+        automate -> initialState = numeroEtat ; // change etat initial si demande
     }
 
 }
@@ -51,22 +51,22 @@ void modifierEtat (AutomateFini *automate, int numeroEtat, bool estInitial, bool
     @param automate : automate auquel on veut supprimer un etat
     @param numeroEtat : numero de l'etat a supprimer
 */
-void supprimerEtat (AutomateFini *automate, int numeroEtat ){ // Relou
+void supprimerEtat (FiniteAutomaton *automate, int numeroEtat ){ // Relou
     
 }
 
-void afficherEtat (AutomateFini *automate, int numeroEtat){ 
+void afficherEtat (FiniteAutomaton *automate, int numeroEtat){ 
     printf("Etat numero %d\n",numeroEtat);
-    printf("Est final : %d\n",automate->etats[numeroEtat].estFinal);
+    printf("Est final : %d\n",automate->states[numeroEtat].estFinal);
 }
 
-void afficherEtats (AutomateFini *automate){ 
-    if (automate->nombreEtats == 0)
+void afficherEtats (FiniteAutomaton *automate){ 
+    if (automate->numberOfStates == 0)
     {
         printf("Aucun etat dans l'automate\n");
     }
     
-    for (int i = 0; i < automate->nombreEtats; i++)
+    for (int i = 0; i < automate->numberOfStates; i++)
     {
         afficherEtat(automate,i);
     }
