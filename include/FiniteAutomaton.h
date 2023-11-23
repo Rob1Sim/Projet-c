@@ -1,7 +1,7 @@
 #ifndef H_FINITEAUTOMATON_H
 #define H_FINITEAUTOMATON_H
 typedef struct FiniteAutomaton FiniteAutomaton;
-#include "Etat.h"
+#include "State.h"
 #include <stdbool.h>
 
 /**
@@ -16,14 +16,14 @@ struct FiniteAutomaton{
     char *alphabet;     
     int initialState;    
     int numberOfStates;
-    Etat *states;        
+    State *states;        
     int ***transition;   
 };
 
 void initAutomaton(FiniteAutomaton *automate, char *alphabet, int numberOfStates);
 
-void addTransition (FiniteAutomaton *automate, Etat depart, Etat fin, int lettre );
-void deleteTransition (FiniteAutomaton *automate, Etat depart, Etat fin, int lettre );
+void addTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
+void deleteTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
 
 void displayAutomaton(FiniteAutomaton *automate);
 void deleteAutomaton(FiniteAutomaton *automate);

@@ -1,5 +1,5 @@
 # Nom du fichier exécutable
-TARGET = Automate
+TARGET = Automaton
 
 # Compilateur
 CC = gcc
@@ -14,7 +14,7 @@ OBJ_DIR = obj
 INC_DIR = include
 
 # Liste des fichiers source
-SOURCES = FiniteAutomaton.c Etat.c main.c
+SOURCES = FiniteAutomaton.c State.c main.c
 
 # Liste des fichiers header
 HEADERS = $(wildcard $(INC_DIR)/*.h)

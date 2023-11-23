@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "Etat.h"
+#include "State.h"
 #include "FiniteAutomaton.h"
 
 int main() {
@@ -51,8 +51,8 @@ int main() {
     initAutomaton(automate, alphabet, nombreEtat);
     
     //Ajout d'un état final et d'un état initial
-    modifierEtat(automate,0,true,false);
-    modifierEtat(automate,1,false,true);
+    editState(automate,0,true,false);
+    editState(automate,1,false,true);
 
     //Ajout des transitions
     addTransition(automate,automate -> states[0],automate -> states[1],1);

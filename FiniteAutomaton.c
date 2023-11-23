@@ -14,13 +14,13 @@ void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState) { 
 
     int nbrTransitions = sizeof(alphabet)/sizeof(alphabet[0]); // nombre de transition
     automaton -> alphabet = alphabet ;   //init alphabet
-    automaton -> numberOfStates = nbOfState ; //init nombre Etat
+    automaton -> numberOfStates = nbOfState ; //init nombre State
     automaton ->initialState = 0; // par default etat initial est a la position 0
-    automaton -> states = malloc(nbOfState*sizeof(Etat));   // init des Etat par default
+    automaton -> states = malloc(nbOfState*sizeof(State));   // init des State par default
 
     for (int i = 0; i < nbOfState; i++) {
-        automaton->states[i].numeroEtat = i;  // numero par default
-        automaton->states[i].estFinal = false;    // par default non final
+        automaton->states[i].stateNumber = i;  // numero par default
+        automaton->states[i].isFinal = false;    // par default non final
     }
 
     automaton -> transition = malloc(nbOfState*sizeof(int *)); // init de la matrice des transition
@@ -42,9 +42,9 @@ void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState) { 
     @param end : end state of the transition
     @param letter : letter of the transition
 */
-void addTransition (FiniteAutomaton *automaton, Etat start, Etat end, int letter ){ // OK
+void addTransition (FiniteAutomaton *automaton, State start, State end, int letter ){ // OK
 
-    automaton -> transition[start.numeroEtat][end.numeroEtat][letter] = 1 ;
+    automaton -> transition[start.stateNumber][end.stateNumber][letter] = 1 ;
 
 }
 /*
@@ -53,9 +53,9 @@ void addTransition (FiniteAutomaton *automaton, Etat start, Etat end, int letter
     @param depart : start state of the transition
     @param fin : end state of the transition
 */
-void deleteTransition (FiniteAutomaton *automaton, Etat start, Etat end,int letter ){ // OK
+void deleteTransition (FiniteAutomaton *automaton, State start, State end,int letter ){ // OK
 
-    automaton -> transition[start.numeroEtat][end.numeroEtat][letter] = 0 ;
+    automaton -> transition[start.stateNumber][end.stateNumber][letter] = 0 ;
 }
 /*
     Display the automaton
@@ -72,7 +72,7 @@ void displayAutomaton(FiniteAutomaton *automaton){
             {
                 if (automaton->transition[i][j][k] == 1)
                 {
-                    printf("%d -- %c -- %d\n",automaton->states[i].numeroEtat,automaton->alphabet[k],automaton->states[j].numeroEtat);
+                    printf("%d -- %c -- %d\n",automaton->states[i].stateNumber,automaton->alphabet[k],automaton->states[j].stateNumber);
                 }
             }
         }
