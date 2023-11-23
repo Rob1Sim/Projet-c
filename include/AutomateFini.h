@@ -23,7 +23,7 @@ struct AutomateFini{
 void initialiserAutomate(AutomateFini *automate, char *alphabet, int nombreEtats);
 
 void ajouterTransition (AutomateFini *automate, Etat depart, Etat fin, int lettre );
-void supprimerTransition (AutomateFini *automate, Etat depart, Etat fin );
+void supprimerTransition (AutomateFini *automate, Etat depart, Etat fin, int lettre );
 
 void afficherAutomate(AutomateFini *automate);
 void supprimerAutomate(AutomateFini *automate);
