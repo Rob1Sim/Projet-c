@@ -9,6 +9,9 @@ Faudra traduire ce readme en anglais
 Pour télécharger les fichiers du repo sur votre pc:  
 `git clone https://github.com/Rob1Sim/Projet-c.git`  
 Pour récupérer les derniers changements : `git pull`  
+### Structure du projet
+Les fichiers head (.h) sont dans le `./include`  
+Les fichiers source (.c autre que le main) sont dans le dossier `./src`  
 
 ## Rappels  
 Le projets doit être documenté en anglais (c'est dans les consignes) essayer de nomer vos variables/fonction en anglais, de même pour la doc  
