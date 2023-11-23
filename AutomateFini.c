@@ -63,20 +63,21 @@ void supprimerTransition (AutomateFini *automate, Etat depart, Etat fin,int lett
 */
 void afficherAutomate(AutomateFini *automate){ // Plus Tard
     printf("Alphabet : %d\n",automate->nombreEtats);
+    int nbrTransitions = sizeof(automate->alphabet)/sizeof(automate->alphabet[0]);
     for (int i = 0; i < automate->nombreEtats; i++)
     {
-        printf("%d -- ",automate->etats[i].numeroEtat);
         for (int j = 0; j < automate->nombreEtats; j++)
         {
-            if (automate->transition[i][j] != -1)
+            for (int k = 0; k < nbrTransitions; k++)
             {
-                printf("%d ",automate->transition[i][j]);
+                if (automate->transition[i][j][k] == 1)
+                {
+                    printf("%d -- %c -- %d\n",automate->etats[i].numeroEtat,automate->alphabet[k],automate->etats[j].numeroEtat);
+                }
             }
-            printf("%d",automate->etats[j].numeroEtat);
         }
         printf("\n");
     }
-    
 }
 /*
     Supprime un automate

@@ -46,21 +46,22 @@ int main() {
     alphabet[1] = 'b' ;
     int nombreEtat = 2 ;
 
+    //Création de l'automate
     AutomateFini *automate = malloc(sizeof(AutomateFini));
     initialiserAutomate(automate, alphabet, nombreEtat);
+    
+    //Ajout d'un état final et d'un état initial
     modifierEtat(automate,0,true,false);
     modifierEtat(automate,1,false,true);
+
+    //Ajout des transitions
     ajouterTransition(automate,automate -> etats[0],automate -> etats[1],1);
     ajouterTransition(automate,automate -> etats[0],automate -> etats[0],0);
+    ajouterTransition(automate,automate -> etats[0],automate -> etats[1],0);
+    
+    //Affichage de l'automate
+    afficherAutomate(automate);
 
-    //TODO: Corriger ajouter transition
-    AutomateFini *automate2 = malloc(sizeof(AutomateFini));
-    ajouterEtat(automate2,true,false);
-    ajouterEtat(automate2,false,false);
-    afficherEtat(automate2,50);
-    afficherAutomate(automate2);
-    afficherEtats(automate2);
-    //ajouterTransition(automate2,automate2 -> etats[0],automate2 -> etats[1],1);
-    //afficherAutomate(automate2);
+
     return 0;
 }
