@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include <stdbool.h>
 #include "State.h"
-/*
+/**
     Add a state to an automaton
     @param automaton : automaton to which we want to add a state
     @param isInitial : true if the state is initial, false otherwise
@@ -31,7 +31,7 @@ void addState (FiniteAutomaton *automaton, bool isInitial, bool isFinal) {
     }
 
 }
-/*
+/**
     Edit a state of an automaton
     @param automaton : automaton to which we want to edit a state
     @param stateNumber : number of the state to edit
@@ -46,7 +46,7 @@ void editState (FiniteAutomaton *automaton, int stateNumber, bool isInitial, boo
     }
 
 }
-/*
+/**
     Delete a state of an automaton
     @param automaton : automaton to which we want to delete a state
     @param stateNumber : number of the state to delete
@@ -54,7 +54,7 @@ void editState (FiniteAutomaton *automaton, int stateNumber, bool isInitial, boo
 void deleteState (FiniteAutomaton *automaton, int stateNumber ){ // Relou
     
 }
-/*
+/**
     Display a state of an automaton
     @param automaton : automaton to which we want to display a state
     @param stateNumber : number of the state to display
@@ -64,7 +64,7 @@ void dislpayState (FiniteAutomaton *automaton, int stateNumber){
     printf("is Final : %d\n",automaton->states[stateNumber].isFinal);
 }
 
-/*
+/**
     Display all states of an automaton
     @param automaton : automaton to which we want to display all states
 */
