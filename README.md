@@ -3,7 +3,9 @@ Faudra traduire ce readme en anglais
 ## Compiler le projet 
 - Lancer la commande `make`  dans le terminal
 - Taper `./Automaton`
-
+## Docs du projet  
+La docs est générer automatiquement à chaque fois que la branch main est mise à jour :  
+La doc est accessible ici: https://rob1sim.github.io/Projet-c/  
 ## Récupérer le projet
 
 Pour télécharger les fichiers du repo sur votre pc:  
