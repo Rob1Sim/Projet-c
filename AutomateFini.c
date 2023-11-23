@@ -8,9 +8,11 @@
     @param automate : automate a initialiser
     @param alphabet : alphabet de l'automate
     @param nombreEtats : nombre d'etats de l'automate
+    @brief Initialise un automate avec un alphabet et un nombre d'etats 
 */
 void initialiserAutomate(AutomateFini *automate, char *alphabet, int nombreEtats) { // OK
 
+    int nbrTransitions = sizeof(alphabet)/sizeof(alphabet[0]); // nombre de transition
     automate -> alphabet = alphabet ;   //init alphabet
     automate -> nombreEtats = nombreEtats ; //init nombre Etat
     automate ->etatInitial = 0; // par default etat initial est a la position 0
@@ -26,7 +28,10 @@ void initialiserAutomate(AutomateFini *automate, char *alphabet, int nombreEtats
     for (int i = 0; i < nombreEtats; i++) {
         automate -> transition[i] = malloc(nombreEtats*sizeof(int));
         for (int j = 0; j < nombreEtats; j++){
-            automate ->transition[i][j] = -1 ;  // par default pas de transition donc -1
+            automate->transition[i][j] = malloc(nbrTransitions*sizeof(int));
+            for (int k = 0; k < nbrTransitions; k++){
+                automate->transition[i][j][k] = -1;
+            }
         }
     }
 }
