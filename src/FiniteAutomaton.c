@@ -3,12 +3,12 @@
 #include "FiniteAutomaton.h"
 #include <stdbool.h>
 
-/*
-    Initialization of the Automaton
-    @param automaton : automate to initialize
-    @param alphabet : alphabet of the automate
-    @param nbOfState : number of states of the automate
-    @brief : This function initialize the automate with the alphabet and the number of states 
+/**
+*    Initialization of the Automaton
+*    @param automaton automate to initialize
+*    @param alphabet alphabet of the automate
+*    @param nbOfState  number of states of the automate
+*    @brief  This function initialize the automate with the alphabet and the number of states 
 */
 void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState) { // OK
 
@@ -35,19 +35,19 @@ void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState) { 
         }
     }
 }
-/*
-    Add transition to an automaton
-    @param automaton : automaton to add a transition
-    @param start : start state of the transition
-    @param end : end state of the transition
-    @param letter : letter of the transition
+/**
+ * @brief Add a transition to an automaton
+ * @param automaton : automaton to which we want to add a transition
+ * @param start : start state of the transition
+ * @param end : end state of the transition
+ * @param letter : letter of the transition
 */
 void addTransition (FiniteAutomaton *automaton, State start, State end, int letter ){ // OK
 
     automaton -> transition[start.stateNumber][end.stateNumber][letter] = 1 ;
 
 }
-/*
+/**
     Delete one transition of an automaton
     @param automaton : automaton to delete a transition
     @param depart : start state of the transition
@@ -57,7 +57,7 @@ void deleteTransition (FiniteAutomaton *automaton, State start, State end,int le
 
     automaton -> transition[start.stateNumber][end.stateNumber][letter] = 0 ;
 }
-/*
+/**
     Display the automaton
     @param automaton : automaton to display
 */
@@ -79,7 +79,7 @@ void displayAutomaton(FiniteAutomaton *automaton){
         printf("\n");
     }
 }
-/*
+/**
     Delete an automaton
     @param automate : automaton to delete
 */
@@ -87,7 +87,7 @@ void deleteAutomaton(FiniteAutomaton *automaton){ // OK
 
     free(automaton);
 }
-/*
+/**
     Import an automaton
     @param location : location of the automaton to import
 
@@ -95,14 +95,14 @@ void deleteAutomaton(FiniteAutomaton *automaton){ // OK
 void importAutomaton (char location){ // Plus Tard
     //TODO: Adem
 }
-/*
+/**
     Export an automaton
     @param automaton : automaton to export
 */
 void exportAutomaton (FiniteAutomaton *automaton){ // Plus Tard
     //TODO: Adem
 }
-/*
+/**
     check if a word is in an automaton
     @param automaton : automaton to check
     @param word : word to check
@@ -111,28 +111,28 @@ void exportAutomaton (FiniteAutomaton *automaton){ // Plus Tard
 bool checkWordInAutomaton(FiniteAutomaton *automaton, char word){ // Plus Tard
     //TODO: Ryad
 }
-/*
+/**
     check if an automaton is complete
     @param automaton : automaton to check
 */
 bool isComplete(FiniteAutomaton *automaton){ // Plus Tard
     //TODO: Lina
 }
-/*
+/**
     check if an automaton is deterministic
     @param automaton : automaton to check
 */
 bool isDeterministic(FiniteAutomaton *automaton){ // Plus Tard
     
 }
-/*
+/**
     Turn an automaton into a complete automaton
     @param automaton : automaton to turn into a complete automaton
 */
 void turnIntoComplete(FiniteAutomaton *automaton){ // Plus Tard
     //TODO: Robin
 }   
-/*
+/**
     Turn an automaton into a deterministic automaton
     @param automaton : automaton to turn into a deterministic automaton
 

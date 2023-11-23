@@ -5,6 +5,11 @@ typedef struct State State;
 #include "FiniteAutomaton.h"
 #include <stdbool.h>
 
+/**
+ * @brief Struct of a state
+ * @param stateNumber : number of the state
+ * @param isFinal : true if the state is final, false otherwise
+*/
 struct State {        
     int stateNumber;
     bool isFinal;      

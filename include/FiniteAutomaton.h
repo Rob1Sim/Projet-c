@@ -26,14 +26,17 @@ void addTransition (FiniteAutomaton *automate, State depart, State fin, int lett
 void deleteTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
 
 void displayAutomaton(FiniteAutomaton *automate);
+
 void deleteAutomaton(FiniteAutomaton *automate);
+
 void importAutomaton (char emplacement);
+
 void exportAutomaton (FiniteAutomaton *automate);
 
 bool checkWordInAutomaton(FiniteAutomaton *automate, char mot);
-
 bool isComplete(FiniteAutomaton *automate);
 bool isDeterministic(FiniteAutomaton *automate);
+
 void turnIntoComplete(FiniteAutomaton *automate);
 void turnIntoDeterministic(FiniteAutomaton *automate);
 #endif
