@@ -1,4 +1,4 @@
-[![Generate and Deploy Documentation](https://github.com/Rob1Sim/Projet-c/actions/workflows/main.yml/badge.svg)](https://github.com/Rob1Sim/Projet-c/actions/workflows/main.yml)
+[![Deploy of the docs to Pages](https://github.com/Rob1Sim/Projet-c/actions/workflows/static.yml/badge.svg)](https://github.com/Rob1Sim/Projet-c/actions/workflows/static.yml)
 
 # PROJET C AUTOMATE
 Faudra traduire ce readme en anglais
