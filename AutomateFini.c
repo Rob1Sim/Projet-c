@@ -8,9 +8,11 @@
     @param automate : automate a initialiser
     @param alphabet : alphabet de l'automate
     @param nombreEtats : nombre d'etats de l'automate
+    @brief Initialise un automate avec un alphabet et un nombre d'etats 
 */
 void initialiserAutomate(AutomateFini *automate, char *alphabet, int nombreEtats) { // OK
 
+    int nbrTransitions = sizeof(alphabet)/sizeof(alphabet[0]); // nombre de transition
     automate -> alphabet = alphabet ;   //init alphabet
     automate -> nombreEtats = nombreEtats ; //init nombre Etat
     automate ->etatInitial = 0; // par default etat initial est a la position 0
@@ -26,7 +28,10 @@ void initialiserAutomate(AutomateFini *automate, char *alphabet, int nombreEtats
     for (int i = 0; i < nombreEtats; i++) {
         automate -> transition[i] = malloc(nombreEtats*sizeof(int));
         for (int j = 0; j < nombreEtats; j++){
-            automate ->transition[i][j] = -1 ;  // par default pas de transition donc -1
+            automate->transition[i][j] = malloc(nbrTransitions*sizeof(int));
+            for (int k = 0; k < nbrTransitions; k++){
+                automate->transition[i][j][k] = 0; // par default les transitions sont a 0
+            }
         }
     }
 }
@@ -39,7 +44,7 @@ void initialiserAutomate(AutomateFini *automate, char *alphabet, int nombreEtats
 */
 void ajouterTransition (AutomateFini *automate, Etat depart, Etat fin, int lettre ){ // OK
 
-    automate -> transition[depart.numeroEtat][fin.numeroEtat] = lettre ;
+    automate -> transition[depart.numeroEtat][fin.numeroEtat][lettre] = 1 ;
 
 }
 /*
@@ -48,9 +53,9 @@ void ajouterTransition (AutomateFini *automate, Etat depart, Etat fin, int lettr
     @param depart : etat de depart de la transition
     @param fin : etat d'arrivee de la transition
 */
-void supprimerTransition (AutomateFini *automate, Etat depart, Etat fin ){ // OK
+void supprimerTransition (AutomateFini *automate, Etat depart, Etat fin,int lettre ){ // OK
 
-    automate -> transition[depart.numeroEtat][fin.numeroEtat] = -1 ;
+    automate -> transition[depart.numeroEtat][fin.numeroEtat][lettre] = 0 ;
 }
 /*
     Affiche un automate
@@ -58,20 +63,21 @@ void supprimerTransition (AutomateFini *automate, Etat depart, Etat fin ){ // OK
 */
 void afficherAutomate(AutomateFini *automate){ // Plus Tard
     printf("Alphabet : %d\n",automate->nombreEtats);
+    int nbrTransitions = sizeof(automate->alphabet)/sizeof(automate->alphabet[0]);
     for (int i = 0; i < automate->nombreEtats; i++)
     {
-        printf("%d -- ",automate->etats[i].numeroEtat);
         for (int j = 0; j < automate->nombreEtats; j++)
         {
-            if (automate->transition[i][j] != -1)
+            for (int k = 0; k < nbrTransitions; k++)
             {
-                printf("%d ",automate->transition[i][j]);
+                if (automate->transition[i][j][k] == 1)
+                {
+                    printf("%d -- %c -- %d\n",automate->etats[i].numeroEtat,automate->alphabet[k],automate->etats[j].numeroEtat);
+                }
             }
-            printf("%d",automate->etats[j].numeroEtat);
         }
         printf("\n");
     }
-    
 }
 /*
     Supprime un automate
