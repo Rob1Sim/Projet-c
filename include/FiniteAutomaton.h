@@ -18,9 +18,10 @@ struct FiniteAutomaton{
     int numberOfStates;
     State *states;        
     int ***transition;   
+    int alphabetSize;
 };
 
-void initAutomaton(FiniteAutomaton *automate, char *alphabet, int numberOfStates);
+void initAutomaton(FiniteAutomaton *automate, char *alphabet, int numberOfStates, int alphabetSize);
 
 void addTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
 void deleteTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
