@@ -11,6 +11,7 @@ typedef struct FiniteAutomaton FiniteAutomaton;
  * @param numberOfStates : number of states of the automaton
  * @param states : array of states of the automaton
  * @param transition : transition matrix of the automaton, the first transition table corresponds to the first state, the second to the second state, and the last to the index of the letter in the alphabet.
+ * @param alphabetSize : size of the alphabet
  */
 struct FiniteAutomaton{ 
     char *alphabet;     
@@ -18,9 +19,10 @@ struct FiniteAutomaton{
     int numberOfStates;
     State *states;        
     int ***transition;   
+    int alphabetSize;
 };
 
-void initAutomaton(FiniteAutomaton *automate, char *alphabet, int numberOfStates);
+void initAutomaton(FiniteAutomaton *automate, char *alphabet, int numberOfStates, int alphabetSize);
 
 void addTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
 void deleteTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );

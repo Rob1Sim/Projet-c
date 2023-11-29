@@ -8,16 +8,16 @@
 *    @param automaton automate to initialize
 *    @param alphabet alphabet of the automate
 *    @param nbOfState  number of states of the automate
+     @param alphabetSize size of the alphabet
 *    @brief  This function initialize the automate with the alphabet and the number of states 
 */
-void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState) { // OK
+void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState, int alphabetSize) { // OK
 
-    int nbrTransitions = sizeof(alphabet)/sizeof(alphabet[0]); // nombre de transition
     automaton -> alphabet = alphabet ;   //init alphabet
     automaton -> numberOfStates = nbOfState ; //init nombre State
     automaton ->initialState = 0; // par default etat initial est a la position 0
     automaton -> states = malloc(nbOfState*sizeof(State));   // init des State par default
-
+    automaton -> alphabetSize = alphabetSize;
     for (int i = 0; i < nbOfState; i++) {
         automaton->states[i].stateNumber = i;  // numero par default
         automaton->states[i].isFinal = false;    // par default non final
@@ -28,8 +28,8 @@ void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState) { 
     for (int i = 0; i < nbOfState; i++) {
         automaton -> transition[i] = malloc(nbOfState*sizeof(int));
         for (int j = 0; j < nbOfState; j++){
-            automaton->transition[i][j] = malloc(nbrTransitions*sizeof(int));
-            for (int k = 0; k < nbrTransitions; k++){
+            automaton->transition[i][j] = malloc(automaton->alphabetSize*sizeof(int));
+            for (int k = 0; k < automaton->alphabetSize; k++){
                 automaton->transition[i][j][k] = 0; // par default les transitions sont a 0
             }
         }
@@ -62,8 +62,8 @@ void deleteTransition (FiniteAutomaton *automaton, State start, State end,int le
     @param automaton : automaton to display
 */
 void displayAutomaton(FiniteAutomaton *automaton){ 
-    printf("Alphabet : %d\n",automaton->numberOfStates);
-    int nbrTransitions = sizeof(automaton->alphabet)/sizeof(automaton->alphabet[0]);
+
+    int nbrTransitions = automaton->alphabetSize;
     for (int i = 0; i < automaton->numberOfStates; i++)
     {
         for (int j = 0; j < automaton->numberOfStates; j++)
@@ -122,8 +122,27 @@ bool isComplete(FiniteAutomaton *automaton){ // Plus Tard
     check if an automaton is deterministic
     @param automaton : automaton to check
 */
-bool isDeterministic(FiniteAutomaton *automaton){ // Plus Tard
+bool isDeterministic(FiniteAutomaton *automaton) {
     
+    bool hasAlreadyThisLetter = false;
+    bool isDet = true;
+
+    for (int i = 0; i < automaton->alphabetSize; i++) {
+        for (int y = 0; y < automaton->numberOfStates; y++) {
+            for (int j = 0; j < automaton->numberOfStates; j++) {
+
+                if (automaton->transition[y][j][i] == 1) {
+                    if (hasAlreadyThisLetter) {
+                        isDet = false;
+                    }
+                    hasAlreadyThisLetter = true;
+                }
+            }
+            hasAlreadyThisLetter = false;
+        }
+        
+    }
+    return isDet;
 }
 /**
     Turn an automaton into a complete automaton

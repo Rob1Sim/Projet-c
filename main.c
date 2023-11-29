@@ -40,7 +40,7 @@ int main() {
     }
     */
     // Exemple automate 1
-
+    /*
     char alphabet[2] ;
     alphabet[0] = 'a' ;
     alphabet[1] = 'b' ;
@@ -60,8 +60,9 @@ int main() {
     addTransition(automate,automate -> states[0],automate -> states[1],0);
     
     //Affichage de l'automate
-    displayAutomaton(automate);
-
+    //displayAutomaton(automate);
+    */
+    executeTest();
 
     return 0;
 }
