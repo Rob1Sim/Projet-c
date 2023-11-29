@@ -122,7 +122,29 @@ bool isComplete(FiniteAutomaton *automaton){ // Plus Tard
     check if an automaton is deterministic
     @param automaton : automaton to check
 */
-bool isDeterministic(FiniteAutomaton *automaton){ // Plus Tard
+bool isDeterministic(FiniteAutomaton *automaton){ 
+
+    int nbrTransitions = sizeof(automaton->alphabet)/sizeof(automaton->alphabet[0]);
+    
+    bool hasAlreadyThisLetter = false;
+    bool isDeterministic = false;
+    for (int i = 0; i < nbrTransitions; i++)
+    {
+        for (int y = 0; y < automaton->numberOfStates; y++)
+        {
+            for (int j = 0; j < automaton->numberOfStates; j++)
+            {
+                if (hasAlreadyThisLetter){
+                    isDeterministic = true;
+                }
+                if (automaton->transition[i][y][j] == 1){
+                    hasAlreadyThisLetter = true;
+                }
+            }
+            
+        }
+    }
+    return isDeterministic;
     
 }
 /**
