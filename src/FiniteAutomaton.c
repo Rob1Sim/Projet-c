@@ -8,6 +8,7 @@
 *    @param automaton automate to initialize
 *    @param alphabet alphabet of the automate
 *    @param nbOfState  number of states of the automate
+     @param alphabetSize size of the alphabet
 *    @brief  This function initialize the automate with the alphabet and the number of states 
 */
 void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState, int alphabetSize) { // OK
