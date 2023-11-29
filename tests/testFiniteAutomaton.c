@@ -41,4 +41,5 @@ void testIsDeterminitic(){
     else{
         printf("Test 2 failed\n");
     }
+    deleteAutomaton(fa2);
 }

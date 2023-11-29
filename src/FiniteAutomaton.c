@@ -61,7 +61,7 @@ void deleteTransition (FiniteAutomaton *automaton, State start, State end,int le
     @param automaton : automaton to display
 */
 void displayAutomaton(FiniteAutomaton *automaton){ 
-    printf("Alphabet : %d\n",automaton->numberOfStates);
+
     int nbrTransitions = automaton->alphabetSize;
     for (int i = 0; i < automaton->numberOfStates; i++)
     {
@@ -125,11 +125,11 @@ bool isDeterministic(FiniteAutomaton *automaton) {
     
     bool hasAlreadyThisLetter = false;
     bool isDet = true;
-    printf("taille alphabet %d\n",automaton->alphabetSize);
+
     for (int i = 0; i < automaton->alphabetSize; i++) {
         for (int y = 0; y < automaton->numberOfStates; y++) {
             for (int j = 0; j < automaton->numberOfStates; j++) {
-                printf("%d -%c : %d -> %d\n",y ,automaton->alphabet[i],automaton->transition[y][j][i],j);
+
                 if (automaton->transition[y][j][i] == 1) {
                     if (hasAlreadyThisLetter) {
                         isDet = false;
