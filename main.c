@@ -39,29 +39,7 @@ int main() {
         }
     }
     */
-    // Exemple automate 1
-    /*
-    char alphabet[2] ;
-    alphabet[0] = 'a' ;
-    alphabet[1] = 'b' ;
-    int nombreEtat = 2 ;
-
-    //Création de l'automate
-    FiniteAutomaton *automate = malloc(sizeof(FiniteAutomaton));
-    initAutomaton(automate, alphabet, nombreEtat);
-    
-    //Ajout d'un état final et d'un état initial
-    editState(automate,0,true,false);
-    editState(automate,1,false,true);
-
-    //Ajout des transitions
-    addTransition(automate,automate -> states[0],automate -> states[1],1);
-    addTransition(automate,automate -> states[0],automate -> states[0],0);
-    addTransition(automate,automate -> states[0],automate -> states[1],0);
-    
-    //Affichage de l'automate
-    //displayAutomaton(automate);
-    */
+   
     executeTest();
 
     return 0;

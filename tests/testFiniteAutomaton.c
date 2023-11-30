@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 void testIsDeterminitic(){
-    printf("Test isDeterministic\n");
+    printf("\033[32mTest isDeterministic\033[0m\n");
     
     FiniteAutomaton *fa = malloc(sizeof(FiniteAutomaton));
     char alphabet[]= {'a','b'} ;
@@ -20,10 +20,10 @@ void testIsDeterminitic(){
     displayAutomaton(fa);
 
     if(isDeterministic(fa) == true){
-        printf("Test 1 - isDeterministic passed\n");
+        printf("\033[32mTest 1 - isDeterministic passed\033[0m\n");
     }
     else{
-        printf("Test 1 failed\n");
+        printf("\033[31mTest 1 failed\033[0m\n");
     }
     deleteAutomaton(fa);
 
@@ -36,10 +36,34 @@ void testIsDeterminitic(){
     addTransition(fa2,fa2 -> states[1],fa2 -> states[1],0);
 
     if(isDeterministic(fa2) == false){
-        printf("Test 2 - isDeterministic passed\n");
+        printf("\033[32mTest 2 - isDeterministic passed\033[0m\n");
     }
     else{
-        printf("Test 2 failed\n");
+        printf("\033[31mTest 2 failed\033[0m\n");
     }
     deleteAutomaton(fa2);
+}
+
+void testCreateAutomaton(){
+    printf("\033[32mTest createAutomaton\033[0m\n");
+
+    char alphabet[2] ;
+    alphabet[0] = 'a' ;
+    alphabet[1] = 'b' ;
+    int nombreEtat = 2 ;
+
+    //Création de l'automate
+    FiniteAutomaton *automate = malloc(sizeof(FiniteAutomaton));
+    initAutomaton(automate, alphabet, nombreEtat,2);
+    
+    //Ajout d'un état final et d'un état initial
+    editState(automate,0,true,false);
+    editState(automate,1,false,true);
+
+    //Ajout des transitions
+    addTransition(automate,automate -> states[0],automate -> states[1],1);
+    addTransition(automate,automate -> states[0],automate -> states[0],0);
+    addTransition(automate,automate -> states[0],automate -> states[1],0);
+    
+
 }
