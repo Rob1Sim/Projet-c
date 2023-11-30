@@ -17,7 +17,6 @@ void testIsDeterminitic(){
     addTransition(fa,fa -> states[1],fa -> states[0],1);
     addTransition(fa,fa -> states[1],fa -> states[1],0);
     
-    displayAutomaton(fa);
 
     if(isDeterministic(fa) == true){
         printf("\033[32mTest 1 - isDeterministic passed\033[0m\n");
@@ -42,6 +41,7 @@ void testIsDeterminitic(){
         printf("\033[31mTest 2 failed\033[0m\n");
     }
     deleteAutomaton(fa2);
+    printf("\033[32m------------------------------\033[0m\n");
 }
 
 void testCreateAutomaton(){
@@ -64,6 +64,8 @@ void testCreateAutomaton(){
     addTransition(automate,automate -> states[0],automate -> states[1],1);
     addTransition(automate,automate -> states[0],automate -> states[0],0);
     addTransition(automate,automate -> states[0],automate -> states[1],0);
+    printf("\033[32mTest createAutomaton passed\033[0m\n");
     
+    printf("\033[32m------------------------------\033[0m\n");
 
 }
