@@ -23,10 +23,10 @@ void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState, in
         automaton->states[i].isFinal = false;    // par default non final
     }
 
-    automaton -> transition = malloc(nbOfState*sizeof(int *)); // init de la matrice des transition
+    automaton -> transition = malloc(nbOfState*sizeof(int **)); // init de la matrice des transition
 
     for (int i = 0; i < nbOfState; i++) {
-        automaton -> transition[i] = malloc(nbOfState*sizeof(int));
+        automaton -> transition[i] = malloc(nbOfState*sizeof(int *));
         for (int j = 0; j < nbOfState; j++){
             automaton->transition[i][j] = malloc(automaton->alphabetSize*sizeof(int));
             for (int k = 0; k < automaton->alphabetSize; k++){
@@ -43,9 +43,14 @@ void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int nbOfState, in
  * @param letter : letter of the transition
 */
 void addTransition (FiniteAutomaton *automaton, State start, State end, int letter ){ // OK
+    if (start.stateNumber < 0 || start.stateNumber >= automaton->numberOfStates ||
+        end.stateNumber < 0 || end.stateNumber >= automaton->numberOfStates ||
+        letter < 0 || letter >= automaton->alphabetSize) {
+        printf("Error: Invalid transition parameters.\n");
+        return;
+    }
 
     automaton -> transition[start.stateNumber][end.stateNumber][letter] = 1 ;
-
 }
 /**
     Delete one transition of an automaton

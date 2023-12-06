@@ -11,24 +11,48 @@
 void addState (FiniteAutomaton *automaton, bool isInitial, bool isFinal) { 
 
     int numberOfStates = 1 + automaton -> numberOfStates ; // augmente le nombre d'etat de 1
-
+    automaton -> numberOfStates = numberOfStates ; // change le nombre d'etat dans l'automate
     State newState;
 
     newState.isFinal = isFinal;   // init le nouvelle etat avec les parametres
-    newState.stateNumber = numberOfStates;
+    newState.stateNumber = numberOfStates -1;
 
     State *newStates = malloc(numberOfStates*sizeof(State)); // alloue la memoire pour le nouveau tableau
     for (int i = 0; i < numberOfStates - 1; i++){
         newStates[i] = automaton -> states[i]; // copie les ancients etats dans le nouveau tableau
     }
 
-    newStates[numberOfStates] = newState; // ajoute le nouvelle etat dans le tableau
+    newStates[numberOfStates-1] = newState; // ajoute le nouvelle etat dans le tableau
     free(automaton -> states);    // libere la memoire de l'ancien tableau
     automaton -> states = newStates ;
 
     if (isInitial){
         automaton -> initialState = numberOfStates -1 ; // change etat initial si demand�
     }
+
+    automaton->transition = realloc(automaton->transition,numberOfStates*sizeof(int**)); // augmente la taille de la matrice
+    automaton->transition[numberOfStates-1] = malloc(numberOfStates * sizeof(int*)); // initialize memory for the new state's transitions
+
+    for (int i = 0; i < numberOfStates; i++) {
+        automaton->transition[i] = realloc(automaton->transition[i], numberOfStates * sizeof(int*)); // augmente la taille de la matrice
+        if (i == numberOfStates - 1) {
+            for (int j = 0; j < numberOfStates; j++) {
+                automaton->transition[i][j] = malloc(automaton->alphabetSize * sizeof(int)); // allocate memory for the new state's transitions
+            }
+        } else {
+            automaton->transition[i][numberOfStates-1] = malloc(automaton->alphabetSize * sizeof(int)); // allocate memory for the new state's transitions
+        }
+    }
+
+    for (int i = 0; i < numberOfStates; i++)
+    {
+        for (int j = 0; j < automaton->alphabetSize; j++)
+        {
+            automaton->transition[numberOfStates-1][i][j] = 0; // par default les transitions sont a 0
+            automaton->transition[i][numberOfStates-1][j] = 0; // par default les transitions sont a 0
+        }
+    }
+
 
 }
 /**
