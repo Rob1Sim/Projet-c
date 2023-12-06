@@ -5,7 +5,7 @@ TARGET = Automaton
 CC = gcc
 
 # Options de compilation
-CFLAGS = -Wall -Wextra -std=c11
+CFLAGS = -Wall -Wextra -g -std=c11 -fsanitize=address
 
 # Répertoire pour les fichiers objets
 OBJ_DIR = obj
@@ -50,3 +50,6 @@ $(OBJ_DIR)/%.o: tests/%.c $(HEADERS)
 # Nettoyer les fichiers temporaires
 clean:
 	rm -rf $(OBJ_DIR) $(TARGET)
+
+gdb: $(TARGET)
+	gdb $(TARGET)
