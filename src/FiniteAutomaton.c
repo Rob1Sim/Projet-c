@@ -174,6 +174,27 @@ void turnIntoComplete(FiniteAutomaton *automaton){
     @param automaton : automaton to turn into a deterministic automaton
 
 */
-void turnIntoDeterministic(FiniteAutomaton *automaton){ // Plus Tard
-
+void turnIntoDeterministic(FiniteAutomaton *automaton){ 
+    //Pour chaque lettre lettreInitial
+    // Pour chaque etat i
+    //  tableau dynamique des etats j
+    //  Initialisation d'un compteur pour le tableau
+    //  Pour chaque etat j
+    //      Si il y a une transition de i a j avec la lettre lettreInitial
+    //          Ajouter j au tableau
+    //          Augmente le compteur
+    //  Si le compteur est superieur a 1
+    //      Ajouter un etat
+    //      Ajouter une transition de i a l'etat nouvellement cree avec la lettre lettreInitial
+    //      Pour chaque etat k du tableau dynamique
+    //          Pour chaque etat y
+    //                  Pour chaque lettre lettreTransition
+    //                      Si il y a une transition de de k a y avec la lettre lettreTransition       
+    //                          Ajouter une transition de l'etat nouvellement cree a y avec la lettre lettreTransition
+    //                          Supprimer la transition de k a y avec la lettre lettreTransition
+    //          Si l'etat k est final
+    //              Rendre l'etat nouvellement cree final
+    //          Supprimer la transition de i a k avec la lettre lettreInitial
+    //          
+    // A AJOUTER : Supprimer les etats inutiles (non atteignables) il faut vérifier que l'etat n'est pas initial et qu'il n'est pas final et qu'il n'est pas atteignable
 }
