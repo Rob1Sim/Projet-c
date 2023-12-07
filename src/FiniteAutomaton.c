@@ -153,8 +153,21 @@ bool isDeterministic(FiniteAutomaton *automaton) {
     Turn an automaton into a complete automaton
     @param automaton : automaton to turn into a complete automaton
 */
-void turnIntoComplete(FiniteAutomaton *automaton){ // Plus Tard
-    //TODO: Robin
+void turnIntoComplete(FiniteAutomaton *automaton){ 
+    addState(automaton,false,false); // ajoute un etat puit
+    for(int iLetter = 0; iLetter < automaton->alphabetSize; iLetter++){
+        for(int iState = 0; iState < automaton->numberOfStates; iState++){
+            bool hasTransition = false;
+            for(int iState2 = 0; iState2 < automaton->numberOfStates; iState2++){
+                if(automaton->transition[iState][iState2][iLetter] == 1){
+                    hasTransition = true;
+                }
+            }
+            if(!hasTransition){
+                addTransition(automaton,automaton->states[iState],automaton->states[automaton->numberOfStates-1],iLetter);
+            }
+        }
+    }
 }   
 /**
     Turn an automaton into a deterministic automaton

@@ -6,4 +6,5 @@ void executeTest(){
     testIsDeterminitic();
     testCreateAutomaton();
     testAddState();
+    testTurnIntoComplete();
 }
