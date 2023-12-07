@@ -35,11 +35,11 @@ Aller sur Github et créer un *Pull request*, demandez à quelqu'un de vérifiez
 - exporterAutomate -> Adem
 - verifierMotDansAutomate -> Ryad
 - estComplet -> Lina
-- estDeterministe ->
-- rendreComplet -> Robin
+- estDeterministe -> ✔
+- rendreComplet -> Robin ✔
 - rendreDeterministe ->
 - complément d'un AEF (voir cours) ->
-- Miroire d'un AEF (voir cours) ->
+- Miroire d'un AEF (voir cours) -> 
 - Produit de 2 AEF (voir cours) ->
 - Concaténation d'un AEF (voir cours) ->
 - Extraire une expression régulière d'un AEF (voir cours) ->
