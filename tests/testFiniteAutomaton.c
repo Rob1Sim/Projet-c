@@ -100,3 +100,30 @@ void testAddState(){
     printf("\033[32mTest addState passed\033[0m\n");
     printf("\033[32m------------------------------\033[0m\n");
 }
+
+void testTurnIntoComplete(){
+    printf("\033[32mTest turnIntoComplete\033[0m\n");
+    char alphabet[2] ;
+    alphabet[0] = 'a' ;
+    alphabet[1] = 'b' ;
+    int nombreEtat = 2 ;
+
+    //Création de l'automate
+    FiniteAutomaton *automate = malloc(sizeof(FiniteAutomaton));
+    initAutomaton(automate, alphabet, nombreEtat,2);
+    
+    //Ajout d'un état final et d'un état initial
+    editState(automate,0,true,false);
+    editState(automate,1,false,true);
+
+    //Ajout des transitions
+    addTransition(automate,automate -> states[0],automate -> states[1],1); // 0 -> 1 b
+    addTransition(automate,automate -> states[1],automate -> states[1],1); // 1 -> 1 b
+    addTransition(automate,automate -> states[1],automate -> states[1],0); // 1 -> 1 a
+
+    displayAutomaton(automate);
+    turnIntoComplete(automate);
+    displayAutomaton(automate);
+    printf("\033[32mTest turnIntoComplete passed\033[0m\n");
+    printf("\033[32m------------------------------\033[0m\n");
+}
