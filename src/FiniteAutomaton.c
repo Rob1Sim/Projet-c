@@ -197,4 +197,64 @@ void turnIntoDeterministic(FiniteAutomaton *automaton){
     //          Supprimer la transition de i a k avec la lettre lettreInitial
     //          
     // A AJOUTER : Supprimer les etats inutiles (non atteignables) il faut vérifier que l'etat n'est pas initial et qu'il n'est pas final et qu'il n'est pas atteignable
+    for (int iLetter = 0; iLetter < automaton->alphabetSize; iLetter++){
+        for (int iState = 0; iState < automaton->numberOfStates; iState++){
+            State *states = malloc(automaton->numberOfStates*sizeof(State));
+            int statesCounter = 0;
+            for (int jState = 0; jState < automaton->numberOfStates; jState++){
+                if (automaton->transition[iState][jState][iLetter] == 1){
+                    states[statesCounter] = automaton->states[jState];
+                    statesCounter++;
+                }
+            }
+            if (statesCounter > 1){
+                addState(automaton,false,false);
+                addTransition(automaton,automaton->states[iState],automaton->states[automaton->numberOfStates-1],iLetter);
+                for (int kState = 0; kState < statesCounter; kState++){
+                    for (int yState = 0; yState < automaton->numberOfStates; yState++){
+                        for (int iLetter2 = 0; iLetter2 < automaton->alphabetSize; iLetter2++){
+                            if (automaton->transition[states[kState].stateNumber][yState][iLetter2] == 1){
+                                //Corriger cette merde
+                                if (iLetter == iLetter2 && yState != automaton->numberOfStates-1){
+                                    deleteTransition(automaton,states[kState],automaton->states[yState],iLetter2);
+                                }
+                                if (isTheStateInTheArray(states,statesCounter,automaton->states[yState])){
+                                    if (states[kState].stateNumber == yState && iLetter != iLetter2 || states[kState].stateNumber != yState ){
+                                        
+                                        addTransition(automaton,automaton->states[automaton->numberOfStates-1],automaton->states[automaton->numberOfStates-1],iLetter2);
+                                    }
+                                }
+                                addTransition(automaton,automaton->states[automaton->numberOfStates-1],automaton->states[yState],iLetter2);
+                                
+                            }
+                        }
+                    }
+                    if (states[kState].isFinal){
+                        editState(automaton,automaton->numberOfStates-1,false,true);
+                    }
+                }
+                addTransition(automaton,automaton->states[iState],automaton->states[automaton->numberOfStates-1],iLetter);
+
+            }
+            free(states);
+        }
+    }
+}
+
+/**
+ * @brief Check if a state is in an array of states
+ * @param array : array of states
+ * @param arraySize : size of the array
+ * @param state : state to check
+*/
+bool isTheStateInTheArray(State *array, int arraySize, State state)
+{
+    for (int i = 0; i < arraySize; i++)
+    {
+        if (array[i].stateNumber == state.stateNumber)
+        {
+            return true;
+        }
+    }
+    return false;
 }

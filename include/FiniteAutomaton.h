@@ -41,4 +41,5 @@ bool isDeterministic(FiniteAutomaton *automate);
 
 void turnIntoComplete(FiniteAutomaton *automate);
 void turnIntoDeterministic(FiniteAutomaton *automate);
+bool isTheStateInTheArray(State *array, int arraySize, State state);
 #endif
