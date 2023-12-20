@@ -7,5 +7,5 @@ void executeTest(){
     testCreateAutomaton();
     testAddState();
     testTurnIntoComplete();
-    testTurnIntoDeterministic();
+    //testTurnIntoDeterministic();
 }

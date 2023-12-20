@@ -90,6 +90,16 @@ void displayAutomaton(FiniteAutomaton *automaton){
 */
 void deleteAutomaton(FiniteAutomaton *automaton){ // OK
 
+    free(automaton->states);
+    for (int i = 0; i < automaton->numberOfStates; i++)
+    {
+        for (int j = 0; j < automaton->numberOfStates; j++)
+        {
+            free(automaton->transition[i][j]);
+        }
+        free(automaton->transition[i]);
+    }
+    free(automaton->transition);
     free(automaton);
 }
 /**

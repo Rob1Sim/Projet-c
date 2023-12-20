@@ -99,8 +99,8 @@ void testAddState(){
     addTransition(automate,automate -> states[2],automate -> states[2],1);
     addTransition(automate,automate -> states[2],automate -> states[2],0);
     displayAutomaton(automate);
-    deleteAutomaton(automate);
     printf("\033[32mTest addState passed\033[0m\n");
+    deleteAutomaton(automate);
     printf("\033[32m------------------------------\033[0m\n");
     return;
 }
@@ -128,8 +128,8 @@ void testTurnIntoComplete(){
     displayAutomaton(automate);
     turnIntoComplete(automate);
     displayAutomaton(automate);
-    deleteAutomaton(automate);
     printf("\033[32mTest turnIntoComplete passed\033[0m\n");
+    deleteAutomaton(automate);
     printf("\033[32m------------------------------\033[0m\n");
     return;
 }
