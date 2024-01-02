@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "FiniteAutomaton.h"
+#include "StateQueue.h"
 #include <stdbool.h>
 
 /**
@@ -90,6 +91,16 @@ void displayAutomaton(FiniteAutomaton *automaton){
 */
 void deleteAutomaton(FiniteAutomaton *automaton){ // OK
 
+    free(automaton->states);
+    for (int i = 0; i < automaton->numberOfStates; i++)
+    {
+        for (int j = 0; j < automaton->numberOfStates; j++)
+        {
+            free(automaton->transition[i][j]);
+        }
+        free(automaton->transition[i]);
+    }
+    free(automaton->transition);
     free(automaton);
 }
 /**
@@ -174,6 +185,85 @@ void turnIntoComplete(FiniteAutomaton *automaton){
     @param automaton : automaton to turn into a deterministic automaton
 
 */
-void turnIntoDeterministic(FiniteAutomaton *automaton){ // Plus Tard
+void turnIntoDeterministic(FiniteAutomaton *automaton) {
 
+    StateQueue *queue = createQueue();
+    State initialState = automaton->states[0];
+    enqueue(queue, initialState);
+
+    while (!isEmpty(queue)) {
+        State currentState = dequeue(queue);
+
+        for (int i = 0; i < automaton->alphabetSize; i++) {
+            State *nextStates = malloc(automaton->numberOfStates * sizeof(State));
+            int nextStatesCount = 0;
+            nextStates[nextStatesCount] = currentState;
+            for (int j = 0; j < automaton->numberOfStates; j++) {
+                if (automaton->transition[currentState.stateNumber][j][i] == 1) {
+                    nextStates[nextStatesCount++] = automaton->states[j];
+                }
+            }
+
+            // si y'a deux fois la meme lettre
+            if (nextStatesCount > 1) {
+                addState(automaton, false, false);
+                for (int j = 1; j < nextStatesCount; j++) {
+                    copyTransitionsToANewState(automaton, nextStates[j],currentState);   
+
+                    if (nextStates[j].isFinal) {
+                        automaton->states[automaton->numberOfStates - 1].isFinal = true;
+                    }
+                }
+                
+                bool isReflective = true;
+                for (int j = 0; j < automaton->numberOfStates; j++) {
+
+                    if (automaton->transition[automaton->numberOfStates - 1][j][i] == 1 && !isTheStateInTheArray(nextStates, nextStatesCount, automaton->states[j])) {
+                        isReflective = false;
+                    }
+
+                }
+
+                if (isReflective){
+                    for (int j = 0; j < nextStatesCount; j++)
+                    {
+                        deleteTransition(automaton, automaton->states[automaton->numberOfStates - 1], nextStates[j], i);
+                    }
+                    addTransition(automaton, automaton->states[automaton->numberOfStates - 1], automaton->states[automaton->numberOfStates - 1], i);
+                }
+
+                enqueue(queue, automaton->states[automaton->numberOfStates - 1]);
+                addTransition(automaton, currentState, automaton->states[automaton->numberOfStates - 1], i);
+            }
+
+
+        }
+    }
+
+    free(queue);
+}
+
+void copyTransitionsToANewState(FiniteAutomaton *automaton, State states, State currentState ) {
+    int numberOfStates = automaton->numberOfStates;
+
+    for (int j = 0; j < automaton->alphabetSize; j++) {
+        for (int y = 0; y < numberOfStates; y++) {
+            if (automaton->transition[states.stateNumber][y][j] == 1) {
+                addTransition(automaton, automaton->states[numberOfStates-1], automaton->states[y], j);
+            }
+
+            if (automaton->transition[currentState.stateNumber][y][j] == 1){
+                deleteTransition(automaton, automaton->states[currentState.stateNumber], automaton->states[y], j);
+            }
+        }
+    }
+}
+
+bool isTheStateInTheArray(State *array, int arraySize, State state) {
+    for (int i = 0; i < arraySize; i++) {
+        if (array[i].stateNumber == state.stateNumber) {
+            return true;
+        }
+    }
+    return false;
 }
