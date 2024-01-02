@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "FiniteAutomaton.h"
+#include "StateQueue.h"
 #include <stdbool.h>
 
 /**
@@ -184,85 +185,83 @@ void turnIntoComplete(FiniteAutomaton *automaton){
     @param automaton : automaton to turn into a deterministic automaton
 
 */
-void turnIntoDeterministic(FiniteAutomaton *automaton){ 
-    //Pour chaque lettre lettreInitial
-    // Pour chaque etat i
-    //  tableau dynamique des etats j
-    //  Initialisation d'un compteur pour le tableau
-    //  Pour chaque etat j
-    //      Si il y a une transition de i a j avec la lettre lettreInitial
-    //          Ajouter j au tableau
-    //          Augmente le compteur
-    //  Si le compteur est superieur a 1
-    //      Ajouter un etat
-    //      Ajouter une transition de i a l'etat nouvellement cree avec la lettre lettreInitial
-    //      Pour chaque etat k du tableau dynamique
-    //          Pour chaque etat y
-    //                  Pour chaque lettre lettreTransition
-    //                      Si il y a une transition de de k a y avec la lettre lettreTransition       
-    //                          Ajouter une transition de l'etat nouvellement cree a y avec la lettre lettreTransition
-    //                          Supprimer la transition de k a y avec la lettre lettreTransition
-    //          Si l'etat k est final
-    //              Rendre l'etat nouvellement cree final
-    //          Supprimer la transition de i a k avec la lettre lettreInitial
-    //          
-    // A AJOUTER : Supprimer les etats inutiles (non atteignables) il faut vérifier que l'etat n'est pas initial et qu'il n'est pas final et qu'il n'est pas atteignable
-    for (int iLetter = 0; iLetter < automaton->alphabetSize; iLetter++){
-        for (int iState = 0; iState < automaton->numberOfStates; iState++){
-            State *states = malloc(automaton->numberOfStates*sizeof(State));
-            int statesCounter = 0;
-            for (int jState = 0; jState < automaton->numberOfStates; jState++){
-                if (automaton->transition[iState][jState][iLetter] == 1){
-                    states[statesCounter] = automaton->states[jState];
-                    statesCounter++;
-                }
-            }
-            if (statesCounter > 1){
-                addState(automaton,false,false);
-                addTransition(automaton,automaton->states[iState],automaton->states[automaton->numberOfStates-1],iLetter);
-                for (int kState = 0; kState < statesCounter; kState++){
-                    for (int yState = 0; yState < automaton->numberOfStates; yState++){
-                        for (int iLetter2 = 0; iLetter2 < automaton->alphabetSize; iLetter2++){
-                            if (automaton->transition[states[kState].stateNumber][yState][iLetter2] == 1){
-                                //Corriger cette merde
-                                if (iLetter == iLetter2 && yState != automaton->numberOfStates-1){
-                                    deleteTransition(automaton,states[kState],automaton->states[yState],iLetter2);
-                                }
-                                if (isTheStateInTheArray(states,statesCounter,automaton->states[yState])){
-                                    if (states[kState].stateNumber == yState && iLetter != iLetter2 || states[kState].stateNumber != yState ){
-                                        
-                                        addTransition(automaton,automaton->states[automaton->numberOfStates-1],automaton->states[automaton->numberOfStates-1],iLetter2);
-                                    }
-                                }
-                                addTransition(automaton,automaton->states[automaton->numberOfStates-1],automaton->states[yState],iLetter2);
-                                
-                            }
-                        }
-                    }
-                    if (states[kState].isFinal){
-                        editState(automaton,automaton->numberOfStates-1,false,true);
-                    }
-                }
-                addTransition(automaton,automaton->states[iState],automaton->states[automaton->numberOfStates-1],iLetter);
+void turnIntoDeterministic(FiniteAutomaton *automaton) {
 
+    StateQueue *queue = createQueue();
+    State initialState = automaton->states[0];
+    enqueue(queue, initialState);
+
+    while (!isEmpty(queue)) {
+        State currentState = dequeue(queue);
+
+        for (int i = 0; i < automaton->alphabetSize; i++) {
+            State *nextStates = malloc(automaton->numberOfStates * sizeof(State));
+            int nextStatesCount = 0;
+            nextStates[nextStatesCount] = currentState;
+            for (int j = 0; j < automaton->numberOfStates; j++) {
+                if (automaton->transition[currentState.stateNumber][j][i] == 1) {
+                    nextStates[nextStatesCount++] = automaton->states[j];
+                }
             }
-            free(states);
+
+            // si y'a deux fois la meme lettre
+            if (nextStatesCount > 1) {
+                addState(automaton, false, false);
+                for (int j = 1; j < nextStatesCount; j++) {
+                    copyTransitionsToANewState(automaton, nextStates[j],currentState);   
+
+                    if (nextStates[j].isFinal) {
+                        automaton->states[automaton->numberOfStates - 1].isFinal = true;
+                    }
+                }
+                
+                bool isReflective = true;
+                for (int j = 0; j < automaton->numberOfStates; j++) {
+
+                    if (automaton->transition[automaton->numberOfStates - 1][j][i] == 1 && !isTheStateInTheArray(nextStates, nextStatesCount, automaton->states[j])) {
+                        isReflective = false;
+                    }
+
+                }
+
+                if (isReflective){
+                    for (int j = 0; j < nextStatesCount; j++)
+                    {
+                        deleteTransition(automaton, automaton->states[automaton->numberOfStates - 1], nextStates[j], i);
+                    }
+                    addTransition(automaton, automaton->states[automaton->numberOfStates - 1], automaton->states[automaton->numberOfStates - 1], i);
+                }
+
+                enqueue(queue, automaton->states[automaton->numberOfStates - 1]);
+                addTransition(automaton, currentState, automaton->states[automaton->numberOfStates - 1], i);
+            }
+
+
+        }
+    }
+
+    free(queue);
+}
+
+void copyTransitionsToANewState(FiniteAutomaton *automaton, State states, State currentState ) {
+    int numberOfStates = automaton->numberOfStates;
+
+    for (int j = 0; j < automaton->alphabetSize; j++) {
+        for (int y = 0; y < numberOfStates; y++) {
+            if (automaton->transition[states.stateNumber][y][j] == 1) {
+                addTransition(automaton, automaton->states[numberOfStates-1], automaton->states[y], j);
+            }
+
+            if (automaton->transition[currentState.stateNumber][y][j] == 1){
+                deleteTransition(automaton, automaton->states[currentState.stateNumber], automaton->states[y], j);
+            }
         }
     }
 }
 
-/**
- * @brief Check if a state is in an array of states
- * @param array : array of states
- * @param arraySize : size of the array
- * @param state : state to check
-*/
-bool isTheStateInTheArray(State *array, int arraySize, State state)
-{
-    for (int i = 0; i < arraySize; i++)
-    {
-        if (array[i].stateNumber == state.stateNumber)
-        {
+bool isTheStateInTheArray(State *array, int arraySize, State state) {
+    for (int i = 0; i < arraySize; i++) {
+        if (array[i].stateNumber == state.stateNumber) {
             return true;
         }
     }

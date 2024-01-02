@@ -4,11 +4,20 @@
 #include <stdlib.h>
 
 
+/**
+* @brief: Node of the queue
+* @param: data: State
+* @param: next: pointer to the next node
+*/ 
 typedef struct Node {
     State data;
     struct Node* next;
 } Node;
-
+/**
+ * @brief: Queue of states
+ * @param: front: pointer to the first node
+ * @param: rear: pointer to the last node
+*/
 typedef struct StateQueue {
     Node* front;
     Node* rear;
