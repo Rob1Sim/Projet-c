@@ -8,4 +8,5 @@ void executeTest(){
     testAddState();
     testTurnIntoComplete();
     //testTurnIntoDeterministic();
+    testCreateMirrorAutomaton();
 }
