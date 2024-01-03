@@ -267,3 +267,41 @@ bool isTheStateInTheArray(State *array, int arraySize, State state) {
     }
     return false;
 }
+/**
+ * @brief Create a mirror automaton from an original automaton
+ * @param original : original automaton
+*/
+FiniteAutomaton* createMirrorAutomaton(const FiniteAutomaton *original) {
+    FiniteAutomaton *mirror = malloc(sizeof(FiniteAutomaton));
+ 
+    // Copy the basic information
+    mirror->alphabet = original->alphabet;
+    mirror->initialState = -1; // Placeholder for the initial state of the mirror, to be set later
+    mirror->numberOfStates = original->numberOfStates;
+    mirror->states = (State *)malloc(sizeof(State) * mirror->numberOfStates);
+    mirror->transition = (int ***)malloc(sizeof(int **) * mirror->numberOfStates);
+    mirror->alphabetSize = original->alphabetSize;
+ 
+    // Create mirror states (reversing the isFinal flag)
+    for (int i = 0; i < mirror->numberOfStates; ++i) {
+        mirror->states[i].stateNumber = i;
+        mirror->states[i].isFinal = !original->states[i].isFinal;
+    }
+ 
+    // Create mirror transitions
+    for (int i = 0; i < mirror->numberOfStates; ++i) {
+        mirror->transition[i] = (int **)malloc(sizeof(int *) * mirror->numberOfStates);
+        for (int j = 0; j < mirror->numberOfStates; ++j) {
+            mirror->transition[i][j] = (int *)malloc(sizeof(int) * mirror->alphabetSize);
+            for (int k = 0; k < mirror->alphabetSize; ++k) {
+                // Reverse the direction of the transition
+                mirror->transition[i][j][k] = original->transition[j][i][k];
+            }
+        }
+    }
+ 
+    // Set the initial state of the mirror
+    mirror->initialState = original->numberOfStates - 1;
+ 
+    return mirror;
+}
