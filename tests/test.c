@@ -9,4 +9,5 @@ void executeTest(){
     testTurnIntoComplete();
     //testTurnIntoDeterministic();
     testCreateMirrorAutomaton();
+    testCreateComplementAutomaton();
 }
