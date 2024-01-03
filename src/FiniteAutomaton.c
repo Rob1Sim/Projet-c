@@ -131,9 +131,24 @@ bool checkWordInAutomaton(FiniteAutomaton *automaton, char word){ // Plus Tard
     check if an automaton is complete
     @param automaton : automaton to check
 */
-bool isComplete(FiniteAutomaton *automaton){ // Plus Tard
-    //TODO: Lina
-}
+bool isComplete(FiniteAutomaton *automaton){ 
+    for (int i = 0; i < automaton->numberOfStates; i++) {
+        for (int j = 0; j < automaton->alphabetSize; j++) {
+            bool hasTransition = false;
+            for (int k = 0; k < automaton->numberOfStates; k++) {
+                if (automaton->transition[i][k][j] == 1) {
+                    hasTransition = true;
+                    break;
+                }
+            }
+            if (!hasTransition) {
+                return false;
+            }
+        }
+    }
+    return true;
+}    
+
 /**
     check if an automaton is deterministic
     @param automaton : automaton to check
