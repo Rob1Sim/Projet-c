@@ -34,7 +34,7 @@ Aller sur Github et créer un *Pull request*, demandez à quelqu'un de vérifiez
 - importerAutomate -> Adem
 - exporterAutomate -> Adem
 - verifierMotDansAutomate -> Ryad
-- estComplet -> Lina
+- estComplet -> Lina✔
 - estDeterministe -> ✔
 - rendreComplet -> Robin ✔
 - rendreDeterministe ->
