@@ -43,5 +43,7 @@ void turnIntoComplete(FiniteAutomaton *automate);
 void turnIntoDeterministic(FiniteAutomaton *automate);
 bool isTheStateInTheArray(State *array, int arraySize, State state);
 void copyTransitionsToANewState(FiniteAutomaton *automaton, State states,   State currentState );
+
 FiniteAutomaton* createMirrorAutomaton(const FiniteAutomaton *original);
+FiniteAutomaton* createComplementAutomaton(const FiniteAutomaton *original);
 #endif

@@ -305,3 +305,39 @@ FiniteAutomaton* createMirrorAutomaton(const FiniteAutomaton *original) {
  
     return mirror;
 }
+
+/**
+ * @brief Create a complement automaton from an original automaton
+ * @param original : original automaton
+*/
+FiniteAutomaton* createComplementAutomaton(const FiniteAutomaton *original) {
+    FiniteAutomaton *complement = malloc(sizeof(FiniteAutomaton));
+
+ 
+    // Copy basic information
+    complement->alphabet = original->alphabet;
+    complement->initialState = original->initialState;
+    complement->numberOfStates = original->numberOfStates;
+    complement->states = (State *)malloc(sizeof(State) * complement->numberOfStates);
+    complement->transition = (int ***)malloc(sizeof(int **) * complement->numberOfStates);
+    complement->alphabetSize = original->alphabetSize;
+ 
+    // Create complement states (reverse isFinal)
+    for (int i = 0; i < complement->numberOfStates; ++i) {
+        complement->states[i].stateNumber = i;
+        complement->states[i].isFinal = !original->states[i].isFinal;
+    }
+ 
+    // Create complement transitions
+    for (int i = 0; i < complement->numberOfStates; ++i) {
+        complement->transition[i] = (int **)malloc(sizeof(int *) * complement->numberOfStates);
+        for (int j = 0; j < complement->numberOfStates; ++j) {
+            complement->transition[i][j] = (int *)malloc(sizeof(int) * complement->alphabetSize);
+            for (int k = 0; k < complement->alphabetSize; ++k) {
+                complement->transition[i][j][k] = original->transition[i][j][k];
+            }
+        }
+    }
+ 
+    return complement;
+}

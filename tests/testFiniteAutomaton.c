@@ -239,3 +239,24 @@ void testCreateMirrorAutomaton(){
     deleteAutomaton(fa2);
     printf("\033[32mTest createMirrorAutomaton passed\033[0m\n");
 }
+
+void testCreateComplementAutomaton(){
+    printf("\033[32mTest createComplementAutomaton\033[0m\n");
+    
+    FiniteAutomaton *fa = malloc(sizeof(FiniteAutomaton));
+
+    char alphabet[]= {'a','b'} ;
+   
+    initAutomaton(fa, alphabet, 2, 2);
+
+ 
+    addTransition(fa,fa -> states[0],fa -> states[0],1);
+    addTransition(fa,fa -> states[0],fa -> states[1],0);
+    addTransition(fa,fa -> states[1],fa -> states[0],1);
+    addTransition(fa,fa -> states[1],fa -> states[1],0);
+    
+    FiniteAutomaton *fa2 = createComplementAutomaton(fa);
+    deleteAutomaton(fa);
+    deleteAutomaton(fa2);
+    printf("\033[32mTest createComplementAutomaton passed\033[0m\n");
+}
