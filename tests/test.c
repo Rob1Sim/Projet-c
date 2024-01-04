@@ -13,4 +13,7 @@ void executeTest(){
     testIsComplete();
     testExportAutomaton();
     testImportAutomaton();
+    //testCreateProductAutomaton();
+    //testCreateMirrorAutomaton();
+    //testCreateComplementAutomaton();
 }

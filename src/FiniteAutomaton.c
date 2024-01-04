@@ -551,3 +551,48 @@ FiniteAutomaton* createComplementAutomaton(const FiniteAutomaton *original) {
  
     return complement;
 }
+
+/**
+ * @brief Create a product automaton from two automatons
+ * @param automatonA : first automaton
+ * @param automatonB : second automaton
+*/
+FiniteAutomaton createProductAutomaton(const FiniteAutomaton *automatonA, const FiniteAutomaton *automatonB) {
+    FiniteAutomaton product;
+ 
+    // Copy basic information
+    product.alphabet = automatonA->alphabet;
+    product.initialState = automatonA->initialState * automatonB->numberOfStates + automatonB->initialState;
+    product.numberOfStates = automatonA->numberOfStates * automatonB->numberOfStates;
+    product.states = (State *)malloc(sizeof(State) * product.numberOfStates);
+    product.transition = (int ***)malloc(sizeof(int **) * product.numberOfStates);
+    product.alphabetSize = automatonA->alphabetSize;
+ 
+    // Create product reports
+    for (int i = 0; i < product.numberOfStates; ++i) {
+        product.states[i].stateNumber = i;
+        // A state is final in the product if the corresponding states of A and B are both final.
+        int stateA = i / automatonB->numberOfStates;
+        int stateB = i % automatonB->numberOfStates;
+        product.states[i].isFinal = automatonA->states[stateA].isFinal && automatonB->states[stateB].isFinal;
+    }
+ 
+    // Create product transitions
+    for (int i = 0; i < product.numberOfStates; ++i) {
+        product.transition[i] = (int **)malloc(sizeof(int *) * product.numberOfStates);
+        for (int j = 0; j < product.numberOfStates; ++j) {
+            product.transition[i][j] = (int *)malloc(sizeof(int) * product.alphabetSize);
+            for (int k = 0; k < product.alphabetSize; ++k) {
+                // Product transitions link states according to the transitions of the original AEFs
+                int nextStateA = i / automatonB->numberOfStates;
+                int nextStateB = i % automatonB->numberOfStates;
+                int transitionA = automatonA->transition[nextStateA][j][k];
+                int transitionB = automatonB->transition[nextStateB][j][k];
+                // Product transition is possible if both transitions of the original AFEs are possible
+                product.transition[i][j][k] = transitionA && transitionB;
+            }
+        }
+    }
+ 
+    return product;
+}
