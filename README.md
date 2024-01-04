@@ -31,8 +31,8 @@ Quand vous avez fini envoyer la branch sur le repo `git push origin nomDeLaBranc
 Aller sur Github et créer un *Pull request*, demandez à quelqu'un de vérifiez vos changement avant de fusionner la branch sur le main 
 
 ## Fonction a faire :
-- importerAutomate -> Adem
-- exporterAutomate -> Adem
+- importerAutomate -> Adem ✔
+- exporterAutomate -> Adem ✔
 - verifierMotDansAutomate -> Ryad
 - estComplet -> Lina✔
 - estDeterministe -> ✔
