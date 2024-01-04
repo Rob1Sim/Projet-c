@@ -437,3 +437,6 @@ void testCreateMirrorAutomaton(){
 void testCreateProductAutomaton(){
 
 }
+void testCreateConcatenationAutomaton(){
+
+}

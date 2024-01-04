@@ -596,3 +596,63 @@ FiniteAutomaton createProductAutomaton(const FiniteAutomaton *automatonA, const 
  
     return product;
 }
+
+/**
+ * @brief Create a union automaton from two automatons
+ * @param automatonA : first automaton
+ * @param automatonB : second automaton
+
+*/
+FiniteAutomaton createConcatenationAutomaton(FiniteAutomaton *automaton1, FiniteAutomaton *automaton2) {
+    FiniteAutomaton concatenation;
+ 
+    // Determine the size of the alphabet
+    int concatenatedAlphabetSize = automaton1->alphabetSize;
+    for (int i = 0; i < automaton2->alphabetSize; ++i) {
+        int symbol = automaton2->alphabet[i];
+        int found = 0;
+        for (int j = 0; j < automaton1->alphabetSize; ++j) {
+            if (automaton1->alphabet[j] == symbol) {
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            ++concatenatedAlphabetSize;
+        }
+    }
+ 
+    // Initialize the concatenation automaton
+    initAutomaton(&concatenation, automaton1->alphabet, automaton1->numberOfStates + automaton2->numberOfStates, concatenatedAlphabetSize);
+ 
+ 
+    // Create concatenation states
+    for (int i = 0; i < concatenation.numberOfStates; ++i) {
+        if (i < automaton1->numberOfStates) {
+            // automaton 1 status
+            concatenation.states[i] = automaton1->states[i];
+        } else {
+            // automaton 2 status
+            concatenation.states[i] = automaton2->states[i - automaton1->numberOfStates];
+            // Add the number of states in automaton 1 to the indices of the states in automaton 2
+            concatenation.states[i].stateNumber += automaton1->numberOfStates;
+        }
+    }
+ 
+ 
+    // Create concatenation transitions
+    for (int i = 0; i < concatenation.numberOfStates; ++i) {
+        concatenation.transition[i] = (int **)malloc(sizeof(int *) * concatenation.numberOfStates);
+        for (int j = 0; j < concatenation.numberOfStates; ++j) {
+            concatenation.transition[i][j] = (int *)malloc(sizeof(int) * concatenatedAlphabetSize);
+            // Initialize transitions to zero
+            for (int k = 0; k < concatenatedAlphabetSize; ++k) {
+                concatenation.transition[i][j][k] = 0;
+            }
+ 
+        }
+    }
+ 
+ 
+    return concatenation;
+}

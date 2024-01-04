@@ -16,4 +16,5 @@ void executeTest(){
     //testCreateProductAutomaton();
     //testCreateMirrorAutomaton();
     //testCreateComplementAutomaton();
+    //testCreateConcatenationAutomaton();
 }

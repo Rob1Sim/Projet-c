@@ -48,4 +48,5 @@ void copyTransitionsToANewState(FiniteAutomaton *automaton, State states,   Stat
 FiniteAutomaton* createMirrorAutomaton(const FiniteAutomaton *original);
 FiniteAutomaton* createComplementAutomaton(const FiniteAutomaton *original);
 FiniteAutomaton createProductAutomaton(const FiniteAutomaton *automatonA, const FiniteAutomaton *automatonB);
+FiniteAutomaton createConcatenationAutomaton(FiniteAutomaton *automaton1, FiniteAutomaton *automaton2);
 #endif
