@@ -319,8 +319,41 @@ void exportAutomaton (FiniteAutomaton *automaton, char *filename){
     @param word : word to check
 
 */
-bool checkWordInAutomaton(FiniteAutomaton *automaton, char word){ // Plus Tard
-    //TODO: Ryad
+bool checkWordInAutomaton(FiniteAutomaton *automaton, char *word){ 
+    int currentState = automaton->initialState;
+    int wordLength = strlen(word);
+ 
+    for (int i = 0; i < wordLength; ++i) {
+        char currentLetter = word[i];
+        int letterIndex = -1;
+ 
+        for (int j = 0; j < automaton->alphabetSize; ++j) {
+            if (automaton->alphabet[j] == currentLetter) {
+                letterIndex = j;
+                break;
+            }
+        }
+ 
+        if (letterIndex == -1) {
+            return false;
+        }
+ 
+        int nextState = -1;
+        for (int j = 0; j < automaton->numberOfStates; ++j) {
+            if (automaton->transition[currentState][j][letterIndex] == 1) {
+                nextState = j;
+                break;
+            }
+        }
+ 
+        if (nextState == -1) {
+            return false;
+        }
+ 
+        currentState = nextState;
+    }
+ 
+    return automaton->states[currentState].isFinal;
 }
 /**
     check if an automaton is complete
@@ -656,3 +689,4 @@ FiniteAutomaton createConcatenationAutomaton(FiniteAutomaton *automaton1, Finite
  
     return concatenation;
 }
+
