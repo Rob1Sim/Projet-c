@@ -31,9 +31,10 @@ void displayAutomaton(FiniteAutomaton *automate);
 
 void deleteAutomaton(FiniteAutomaton *automate);
 
-void importAutomaton (char emplacement);
+void importAutomaton (FiniteAutomaton *automaton, char *location);
+void invalidFileFormatError(char *alphabet, int *finalStates);
 
-void exportAutomaton (FiniteAutomaton *automate);
+void exportAutomaton (FiniteAutomaton *automate, char *filename);
 
 bool checkWordInAutomaton(FiniteAutomaton *automate, char mot);
 bool isComplete(FiniteAutomaton *automate);

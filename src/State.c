@@ -83,7 +83,7 @@ void deleteState (FiniteAutomaton *automaton, int stateNumber ){ // Relou
     @param automaton : automaton to which we want to display a state
     @param stateNumber : number of the state to display
 */
-void dislpayState (FiniteAutomaton *automaton, int stateNumber){ 
+void displayState (FiniteAutomaton *automaton, int stateNumber){ 
     printf("State number %d\n",stateNumber);
     printf("is Final : %d\n",automaton->states[stateNumber].isFinal);
 }
@@ -100,7 +100,7 @@ void displayStates (FiniteAutomaton *automaton){
     
     for (int i = 0; i < automaton->numberOfStates; i++)
     {
-        dislpayState(automaton,i);
+        displayState(automaton,i);
     }
     
 }

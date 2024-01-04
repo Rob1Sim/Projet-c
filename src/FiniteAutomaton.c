@@ -3,6 +3,7 @@
 #include "FiniteAutomaton.h"
 #include "StateQueue.h"
 #include <stdbool.h>
+#include <string.h>
 
 /**
 *    Initialization of the Automaton
@@ -108,16 +109,210 @@ void deleteAutomaton(FiniteAutomaton *automaton){ // OK
     @param location : location of the automaton to import
 
 */
-void importAutomaton (char location){ // Plus Tard
-    //TODO: Adem
+void importAutomaton (FiniteAutomaton *automaton, char *location){ 
+    
+    FILE *file = fopen(location, "r");
+    if (file == NULL) {
+        perror("Error occured while opening the file.\n");
+        return NULL;
+    }
+
+    char *alphabet = NULL;
+    int alphabetSize = 0;
+    int initialState = -1;
+    int numberOfStates = 0;
+    int finalStatesCount = 0;
+    int *finalStates = NULL;
+    
+    // Read the file line by line and parse it
+    char line[100];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        if (strncmp(line, "aph--", 5) == 0) {
+            // Found the line with the alphabet
+            alphabet = malloc(sizeof(line));  // Allocate memory
+            strcpy(alphabet, line + 5);  // Copy the string
+            if (strlen(alphabet) == 0) {
+                return NULL;
+            }
+
+        } else if (strncmp(line, "is--", 4) == 0) {
+            // Found the line with the initial state
+            initialState = atoi(line + 4);
+        } else if (strncmp(line, "aphs--", 6) == 0) {
+            // Found the line with the alphabet size
+            alphabetSize = atoi(line + 6);
+            if (alphabetSize == 0) {
+                perror("Error: Invalid file format.\n");
+                return NULL;
+            }
+
+
+        } else if (strncmp(line, "s--", 3) == 0) {
+            // Found the line with the number of states
+            numberOfStates = atoi(line + 3);
+            if (numberOfStates == 0) {
+                perror("Error: Invalid file format.\n");
+                return NULL;
+            }
+
+        } else if (strncmp(line, "fs--", 4) == 0){
+            // Found the line with the final states
+            finalStates = malloc(numberOfStates * sizeof(int));
+            char *token = strtok(line + 4, "-");
+            while (token != NULL) {
+                finalStates[finalStatesCount] = atoi(token);
+                token = strtok(NULL, "-");
+                finalStatesCount++;
+            }
+            finalStatesCount--;
+
+        } 
+    }
+    fclose(file);
+
+    // Check if the file format is valid
+    if (alphabet == NULL || initialState == -1 || numberOfStates == 0 || alphabetSize == 0) {
+        printf("Error: Invalid file format.\n");
+        free(finalStates);
+        free(alphabet);
+        return NULL;
+    }
+    // finalAlphabet must not be the pointer of the first alphabet
+    char finalAlphabet[alphabetSize];
+    for (int i = 0; i < alphabetSize; i++) {
+        finalAlphabet[i] = alphabet[i];
+    }
+
+    // Initialize the automaton
+    initAutomaton(automaton, finalAlphabet, numberOfStates,alphabetSize);
+
+    // Set the initial state
+    editState(automaton, initialState, true, false);
+
+    // Set the finals states
+    for (int i = 0; i < finalStatesCount; i++)
+    {
+        editState(automaton, finalStates[i], false,true);
+    }
+    free(finalStates);
+
+    // Read the file again to get the transitions
+    char line2[100];
+    file = fopen(location, "r");
+    while (fgets(line2, sizeof(line2), file) != NULL) {
+        if (strncmp(line2, "t--", 3) == 0) {
+            
+            char lineCopy[strlen(line2) + 1];
+            strcpy(lineCopy, line2 + 3);
+
+            char *token = strtok(lineCopy, ";");
+
+            while (token != NULL) {
+                char *nextToken = strtok(NULL, ";");
+
+                int startState = atoi(&token[0]);
+                int endState = atoi(&token[2]);
+                char letter = token[1];
+
+                int letterIndex = -1;
+                for (int i = 0; i < alphabetSize; i++) {
+                    
+                    if (alphabet[i] == letter) {
+                        letterIndex = i;
+                        break;
+                    }
+                }
+                // Guard
+                if (letterIndex == -1) {
+                invalidFileFormatError(alphabet, finalStates);
+
+                    return NULL;
+                }
+
+                if (startState < 0 || startState >= numberOfStates ||
+                    endState < 0 || endState >= numberOfStates) {
+                    invalidFileFormatError(alphabet, finalStates);
+                    return NULL;
+                }
+
+                if (alphabet == NULL || initialState == -1 || numberOfStates == 0 || alphabetSize == 0) {
+                    invalidFileFormatError(alphabet, finalStates);
+                    return NULL;
+                }
+
+                token = nextToken;
+                // Add the transition
+                addTransition(automaton, automaton->states[startState], automaton->states[endState], letterIndex);
+            }
+    }
+    }
+    fclose(file);
+    free(alphabet);
+    return automaton;
+
+}
+/**
+    Display an error if the file format is invalid
+    @param alphabet : alphabet of the automaton
+    @param finalStates : final states of the automaton
+*/
+void invalidFileFormatError(char *alphabet, int *finalStates) {
+    perror("Error: Invalid file format.\n");
+    free(finalStates);
+    free(alphabet);
 }
 /**
     Export an automaton
     @param automaton : automaton to export
+    @param filename : name of the file to export the automaton
 */
-void exportAutomaton (FiniteAutomaton *automaton){ // Plus Tard
-    //TODO: Adem
+void exportAutomaton (FiniteAutomaton *automaton, char *filename){ 
+    char filepath[100];
+    sprintf(filepath, "out/%s", filename);
+
+    FILE *file = fopen(filepath, "w");
+    if (file == NULL) {
+        perror("Error occured while opening the file.\n");
+        return;
+    }
+    // Alphabet
+    fprintf(file, "aph--");
+    for (int i = 0; i < automaton->alphabetSize; i++) {
+        fprintf(file, "%c", automaton->alphabet[i]);
+    }
+    fprintf(file, "\n");
+    //Alphabet Size
+    fprintf(file,"aphs--%d\n",automaton->alphabetSize);
+    // Initial state
+    fprintf(file, "is--%d\n", automaton->initialState);
+    // States
+    fprintf(file, "s--%d\n", automaton->numberOfStates);
+    // Final states
+    fprintf(file, "fs--");
+    for (int i = 0; i < automaton->numberOfStates; i++) {
+        if (automaton->states[i].isFinal) {
+            fprintf(file, "%d-", automaton->states[i].stateNumber);
+        }
+    }
+    fprintf(file, "\n");
+
+    // transitions
+    fprintf(file, "t--");
+    for (int i = 0; i < automaton->numberOfStates; i++) {
+        for (int j = 0; j < automaton->alphabetSize; j++) {
+            for (int k = 0; k < automaton->numberOfStates; k++) {
+                if (automaton->transition[i][k][j] == 1) {
+                    //Transition from i to k with letter j
+                    fprintf(file, "%d%c%d;",
+                            i, automaton->alphabet[j], k);
+                }
+            }
+        }
+    }
+ 
+    fclose(file);
 }
+
 /**
     check if a word is in an automaton
     @param automaton : automaton to check
