@@ -11,4 +11,5 @@ void executeTest(){
     testCreateMirrorAutomaton();
     testCreateComplementAutomaton();
     testIsComplete();
+    testExportAutomaton();
 }

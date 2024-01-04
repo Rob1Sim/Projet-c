@@ -33,7 +33,7 @@ void deleteAutomaton(FiniteAutomaton *automate);
 
 void importAutomaton (char emplacement);
 
-void exportAutomaton (FiniteAutomaton *automate);
+void exportAutomaton (FiniteAutomaton *automate, char *filename);
 
 bool checkWordInAutomaton(FiniteAutomaton *automate, char mot);
 bool isComplete(FiniteAutomaton *automate);

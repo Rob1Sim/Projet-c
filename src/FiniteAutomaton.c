@@ -115,8 +115,46 @@ void importAutomaton (char location){ // Plus Tard
     Export an automaton
     @param automaton : automaton to export
 */
-void exportAutomaton (FiniteAutomaton *automaton){ // Plus Tard
-    //TODO: Adem
+void exportAutomaton (FiniteAutomaton *automaton, char *filename){ 
+    char filepath[100];
+    sprintf(filepath, "out/%s", filename);
+
+    FILE *file = fopen(filepath, "w");
+    if (file == NULL) {
+        perror("Error occured while opening the file.\n");
+        return;
+    }
+ 
+    fprintf(file, "aph--\n");
+    for (int i = 0; i < automaton->alphabetSize; i++) {
+        fprintf(file, "%c", automaton->alphabet[i]);
+    }
+    fprintf(file, "\n");
+
+    fprintf(file, "is--%d\n", automaton->initialState);
+    
+    fprintf(file, "s--\n");
+    for (int i = 0; i < automaton->numberOfStates; i++) {
+        fprintf(file, "%d,%s\n",
+                automaton->states[i].stateNumber,
+                automaton->states[i].isFinal ? "1" : "0");
+    }
+ 
+    // transitions
+    fprintf(file, "t--:\n");
+    for (int i = 0; i < automaton->numberOfStates; i++) {
+        for (int j = 0; j < automaton->alphabetSize; j++) {
+            for (int k = 0; k < automaton->numberOfStates; k++) {
+                if (automaton->transition[i][k][j] == 1) {
+                    //Transition from i to k with letter j
+                    fprintf(file, "%d-%c-%d\n",
+                            i, automaton->alphabet[j], k);
+                }
+            }
+        }
+    }
+ 
+    fclose(file);
 }
 /**
     check if a word is in an automaton
