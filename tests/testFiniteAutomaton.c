@@ -428,12 +428,9 @@ void testImportAutomaton(){
     deleteAutomaton(initialAutomaton);
 }
 
-void testCreateComplementAutomaton(){
-
-}
-void testCreateMirrorAutomaton(){
-
-}
 void testCreateProductAutomaton(){
+
+}
+void testCreateConcatenationAutomaton(){
 
 }
