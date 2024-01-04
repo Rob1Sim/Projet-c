@@ -434,3 +434,44 @@ void testCreateProductAutomaton(){
 void testCreateConcatenationAutomaton(){
 
 }
+void testCheckWordInAutomaton(){
+    printf("\033[32mTest checkWordInAutomaton\033[0m\n");
+    char alphabet[2];
+    alphabet[0] = 'a';
+    alphabet[1] = 'b';
+    int nombreEtat = 2 ;
+
+    //Création de l'automate
+    FiniteAutomaton *automaton = malloc(sizeof(FiniteAutomaton));
+    initAutomaton(automaton, alphabet, nombreEtat,2);
+    
+    //Ajout d'un état final et d'un état initial
+    editState(automaton,0,true,false);
+    editState(automaton,1,false,true);
+
+    //Ajout des transitions
+    addTransition(automaton,automaton -> states[0],automaton -> states[1],1); // 0 -> 1 b
+    addTransition(automaton,automaton -> states[1],automaton -> states[1],1); // 1 -> 1 b
+    addTransition(automaton,automaton -> states[1],automaton -> states[1],0); // 1 -> 1 a
+
+    printf("\033[32m------------------------------\033[0m\n");
+
+    if (checkWordInAutomaton(automaton,"b"))
+    {
+        printf("\033[32mTest 1 - checkWordInAutomaton passed\033[0m\n");
+    }
+    else
+    {
+        printf("\033[31mTest 1 - checkWordInAutomaton failed\033[0m\n");
+    }
+    
+    if (!checkWordInAutomaton(automaton,"ab"))
+    {
+        printf("\033[32mTest 2 - checkWordInAutomaton passed\033[0m\n");
+    }
+    else
+    {
+        printf("\033[31mTest 2 - checkWordInAutomaton failed\033[0m\n");
+    }
+    deleteAutomaton(automaton);
+}

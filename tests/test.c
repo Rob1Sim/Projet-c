@@ -17,4 +17,5 @@ void executeTest(){
     //testCreateMirrorAutomaton();
     //testCreateComplementAutomaton();
     //testCreateConcatenationAutomaton();
+    testCheckWordInAutomaton();
 }

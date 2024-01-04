@@ -22,26 +22,26 @@ struct FiniteAutomaton{
     int alphabetSize;
 };
 
-void initAutomaton(FiniteAutomaton *automate, char *alphabet, int numberOfStates, int alphabetSize);
+void initAutomaton(FiniteAutomaton *automaton, char *alphabet, int numberOfStates, int alphabetSize);
 
-void addTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
-void deleteTransition (FiniteAutomaton *automate, State depart, State fin, int lettre );
+void addTransition (FiniteAutomaton *automaton, State start, State end, int letter );
+void deleteTransition (FiniteAutomaton *automaton, State start, State end, int letter );
 
-void displayAutomaton(FiniteAutomaton *automate);
+void displayAutomaton(FiniteAutomaton *automaton);
 
-void deleteAutomaton(FiniteAutomaton *automate);
+void deleteAutomaton(FiniteAutomaton *automaton);
 
 void importAutomaton (FiniteAutomaton *automaton, char *location);
 void invalidFileFormatError(char *alphabet, int *finalStates);
 
-void exportAutomaton (FiniteAutomaton *automate, char *filename);
+void exportAutomaton (FiniteAutomaton *automaton, char *filename);
 
-bool checkWordInAutomaton(FiniteAutomaton *automate, char mot);
-bool isComplete(FiniteAutomaton *automate);
-bool isDeterministic(FiniteAutomaton *automate);
+bool checkWordInAutomaton(FiniteAutomaton *automaton, char *word);
+bool isComplete(FiniteAutomaton *automaton);
+bool isDeterministic(FiniteAutomaton *automaton);
 
-void turnIntoComplete(FiniteAutomaton *automate);
-void turnIntoDeterministic(FiniteAutomaton *automate);
+void turnIntoComplete(FiniteAutomaton *automaton);
+void turnIntoDeterministic(FiniteAutomaton *automaton);
 bool isTheStateInTheArray(State *array, int arraySize, State state);
 void copyTransitionsToANewState(FiniteAutomaton *automaton, State states,   State currentState );
 
