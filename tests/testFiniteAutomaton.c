@@ -329,3 +329,101 @@ void testExportAutomaton(){
     printf("\033[32mTest exportAutomaton passed\033[0m\n");
     deleteAutomaton(automate);
 }
+
+void testImportAutomaton(){
+    printf("\033[32mTest importAutomaton\033[0m\n");
+    
+    char alphabet[2];
+    alphabet[0] = 'a';
+    alphabet[1] = 'b';
+    int nombreEtat = 2 ;
+
+    //Création de l'automate
+    FiniteAutomaton *initialAutomaton = malloc(sizeof(FiniteAutomaton));
+    initAutomaton(initialAutomaton, alphabet, nombreEtat,2);
+    
+    //Ajout d'un état final et d'un état initial
+    editState(initialAutomaton,0,true,false);
+    editState(initialAutomaton,1,false,true);
+
+    //Ajout des transitions
+    addTransition(initialAutomaton,initialAutomaton -> states[0],initialAutomaton -> states[1],1); // 0 -> 1 b
+    addTransition(initialAutomaton,initialAutomaton -> states[1],initialAutomaton -> states[1],1); // 1 -> 1 b
+    addTransition(initialAutomaton,initialAutomaton -> states[1],initialAutomaton -> states[1],0); // 1 -> 1 a
+    printf("\033[32m------------------------------\033[0m\n");
+    
+    exportAutomaton(initialAutomaton,"testImportAutomaton.txt");
+
+    FiniteAutomaton *importedAutomaton = malloc(sizeof(FiniteAutomaton));
+    importAutomaton(importedAutomaton,"out/testImportAutomaton.txt");
+
+    if (importAutomaton == NULL)
+    {
+        printf("\033[31mTest 1 - importAutomaton failed\033[0m\n");
+    }
+    else
+    {
+        printf("\033[32mTest 1 - importAutomaton passed\033[0m\n");
+    }
+    
+    if (importedAutomaton -> alphabetSize == initialAutomaton -> alphabetSize)
+    {
+        printf("\033[32mTest 2 - importAutomaton passed\033[0m\n");
+    }
+    else
+    {
+        printf("\033[31mTest 2 - importAutomaton failed\033[0m\n");
+    }
+
+    if (importedAutomaton -> numberOfStates == initialAutomaton -> numberOfStates)
+    {
+        printf("\033[32mTest 3 - importAutomaton passed\033[0m\n");
+    }
+    else
+    {
+        printf("\033[31mTest 3 - importAutomaton failed\033[0m\n");
+    }
+
+    if (importedAutomaton -> initialState == initialAutomaton -> initialState)
+    {
+        printf("\033[32mTest 4 - importAutomaton passed\033[0m\n");
+    }
+    else
+    {
+        printf("\033[31mTest 4 - importAutomaton failed\033[0m\n");
+    }
+
+    if (importedAutomaton -> states[0].isFinal == initialAutomaton -> states[0].isFinal)
+    {
+        printf("\033[32mTest 5 - importAutomaton passed\033[0m\n");
+    }
+    else
+    {
+        printf("\033[31mTest 5 - importAutomaton failed\033[0m\n");
+    }
+    int testCount = 6;
+    for (int i = 0; i < importedAutomaton -> numberOfStates; i++)
+    {
+        for (int j = 0; j < importedAutomaton -> alphabetSize; j++)
+        {
+            for (int y = 0; y < importedAutomaton->numberOfStates; y++)
+            {
+                if (importedAutomaton -> transition[i][y][j] == initialAutomaton -> transition[i][y][j])
+                {
+                    printf("\033[32mTest %d - importAutomaton passed\033[0m\n",testCount);
+                }
+                else
+                {
+                    printf("\033[32mTest %d - importAutomaton failed\033[0m\n",testCount);
+                }
+                testCount++;
+            }
+            
+            
+        }
+    }
+
+    printf("\033[32mTest importAutomaton passed\033[0m\n");
+    deleteAutomaton(importedAutomaton);
+    deleteAutomaton(initialAutomaton);
+}

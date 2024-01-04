@@ -31,7 +31,8 @@ void displayAutomaton(FiniteAutomaton *automate);
 
 void deleteAutomaton(FiniteAutomaton *automate);
 
-void importAutomaton (char emplacement);
+void importAutomaton (FiniteAutomaton *automaton, char *location);
+void invalidFileFormatError(char *alphabet, int *finalStates);
 
 void exportAutomaton (FiniteAutomaton *automate, char *filename);
 

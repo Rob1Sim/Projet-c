@@ -18,6 +18,6 @@ struct State {
 void addState (FiniteAutomaton *automate, bool estInitial, bool isFinal);
 void editState (FiniteAutomaton *automate, int stateNumber, bool estInitial, bool isFinal);
 void deleteState (FiniteAutomaton *automate, int stateNumber );
-void dislpayState (FiniteAutomaton *automate, int stateNumber);
+void displayState (FiniteAutomaton *automate, int stateNumber);
 void displayStates (FiniteAutomaton *automate);
 #endif

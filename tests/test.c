@@ -12,4 +12,5 @@ void executeTest(){
     testCreateComplementAutomaton();
     testIsComplete();
     testExportAutomaton();
+    testImportAutomaton();
 }
