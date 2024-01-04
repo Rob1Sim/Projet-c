@@ -427,3 +427,13 @@ void testImportAutomaton(){
     deleteAutomaton(importedAutomaton);
     deleteAutomaton(initialAutomaton);
 }
+
+void testCreateComplementAutomaton(){
+
+}
+void testCreateMirrorAutomaton(){
+
+}
+void testCreateProductAutomaton(){
+
+}
