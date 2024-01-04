@@ -75,8 +75,49 @@ void editState (FiniteAutomaton *automaton, int stateNumber, bool isInitial, boo
     @param automaton : automaton to which we want to delete a state
     @param stateNumber : number of the state to delete
 */
-void deleteState (FiniteAutomaton *automaton, int stateNumber ){ // Relou
-    
+void deleteState (FiniteAutomaton *automaton, int stateToRemove ){ 
+        int numStates = automaton->numberOfStates;
+    int alphaSize = automaton->alphabetSize;
+ 
+    if (stateToRemove < 0 || stateToRemove >= numStates) {
+        printf("Invalid State.\n");
+        return;
+    }
+ 
+    for (int i = 0; i < numStates; ++i) {
+        for (int j = 0; j < alphaSize; ++j) {
+            // Si la transition implique l'état à supprimer, la mettre à -1 ou à un état invalide
+            if (automaton->transition[i][j][stateToRemove] != -1) {
+                automaton->transition[i][j][stateToRemove] = -1; // Transition vers un état invalide
+            }
+        }
+    }
+ 
+    for (int i = 0; i < numStates; ++i) {
+        free(automaton->transition[stateToRemove][i]);
+    }
+    free(automaton->transition[stateToRemove]);
+ 
+    for (int i = stateToRemove + 1; i < numStates; ++i) {
+        automaton->transition[i - 1] = automaton->transition[i];
+    }
+ 
+    for (int i = 0; i < numStates; ++i) {
+        if (i >= stateToRemove) {
+            automaton->states[i] = automaton->states[i + 1];
+        }
+        if (automaton->states[i].stateNumber > stateToRemove) {
+            automaton->states[i].stateNumber -= 1;
+        }
+    }
+ 
+    automaton->numberOfStates -= 1;
+ 
+    if (automaton->initialState == stateToRemove) {
+        automaton->initialState = -1; 
+    } else if (automaton->initialState > stateToRemove) {
+        automaton->initialState -= 1;
+    }
 }
 /**
     Display a state of an automaton
